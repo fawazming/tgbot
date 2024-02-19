@@ -53,7 +53,7 @@ class Home extends BaseController
             $bot->sendMessage("You will get {$amount} portions of {$dish}!");
         });
 
-        $bot->onText('Data (MTN|ART|GLO|9MB) (1GB|2GB|500MB) to (phone)', function (Nutgram $bot, $network, $amount, $phone) {
+        $bot->onText('Data (MTN|ART) (1GB|500MB) to (phone)', function (Nutgram $bot, $network, $amount, $phone) {
             $bot->sendMessage("I will recharge {$network} {$amount} worth of data to {$phone}!");
         });
 
