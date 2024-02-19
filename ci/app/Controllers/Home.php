@@ -36,7 +36,7 @@ class Home extends BaseController
 
         // Called on command "/help"
         $bot->onCommand('help', function (Nutgram $bot) {
-            $bot->sendMessage('Help me!');
+            $bot->sendMessage('Helpu ke!');
         });
 
         // ex. called when a message contains "My name is Mario"
