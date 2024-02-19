@@ -57,6 +57,10 @@ class Home extends BaseController
             $bot->sendMessage("I will recharge {$network} {$amount} worth of data to {$phone}!");
         });
 
+        $bot->onText('Airtime (MTN|ART|GLO|9MB) ([0-9]+) to (phone)', function (Nutgram $bot, $network, $amount, $phone) {
+            $bot->sendMessage("I will recharge {$network} {$amount} airtime to {$phone}!");
+        });
+
         $bot->run();
     }
 }
