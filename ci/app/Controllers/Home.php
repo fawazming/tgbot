@@ -13,6 +13,11 @@ class Home extends BaseController
         return view('welcome_message');
     }
 
+    public function telegramg()
+    {
+        echo 'welcom tg g';
+    }
+
     public function telegram()
     {
         // https://api.telegram.org/bot6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg/setWebhook?url=https://tgbot.sgm.ng/telegram

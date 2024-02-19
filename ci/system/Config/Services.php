@@ -41,7 +41,7 @@ use CodeIgniter\HTTP\URI;
 use CodeIgniter\HTTP\UserAgent;
 use CodeIgniter\Images\Handlers\BaseHandler;
 use CodeIgniter\Language\Language;
-// use CodeIgniter\Log\Logger;
+use CodeIgniter\Log\Logger;
 use CodeIgniter\Pager\Pager;
 use CodeIgniter\Router\RouteCollection;
 use CodeIgniter\Router\RouteCollectionInterface;
@@ -380,16 +380,16 @@ class Services extends BaseService
      * The Logger class is a PSR-3 compatible Logging class that supports
      * multiple handlers that process the actual logging.
      *
-    //  * @return Logger
-    //  */
-    // public static function logger(bool $getShared = true)
-    // {
-    //     if ($getShared) {
-    //         return static::getSharedInstance('logger');
-    //     }
+     * @return Logger
+     */
+    public static function logger(bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('logger');
+        }
 
-    //     return new Logger(config('Logger'));
-    // }
+        return new Logger(config('Logger'));
+    }
 
     /**
      * Return the appropriate Migration runner.
