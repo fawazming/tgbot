@@ -33,6 +33,7 @@ class Home extends BaseController
         // $bot->onCommand('start {parameter}', function (Nutgram $bot, $parameter) {
         //     $bot->sendMessage("The parameter is {$parameter}");
         // });
+        
         $bot->onCommand('start', function(Nutgram $bot){
             $bot->sendMessage(
                 text: 'Welcome!',
@@ -54,6 +55,24 @@ class Home extends BaseController
             $bot->answerCallbackQuery([
                 'text' => 'You selected B'
             ]);
+        });
+
+        $bot->onCommand('choice', function(Nutgram $bot){
+            $bot->sendMessage(
+                text: 'Welcome!',
+                reply_markup: ReplyKeyboardMarkup::make()->addRow(
+                    KeyboardButton::make('Give me food!'),
+                    KeyboardButton::make('Give me animal!'),
+                )
+            );
+        });
+
+        $bot->onText('Give me food!', function (Nutgram $bot) {
+            $bot->sendMessage('Apple!');
+        });
+
+        $bot->onText('Give me animal!', function (Nutgram $bot) {
+            $bot->sendMessage('Dog!');
         });
 
         // Called on command "/help"
