@@ -30,50 +30,50 @@ class Home extends BaseController
         $bot->setRunningMode(Webhook::class);
 
         // Called when a message contains the command "/start someParameter"
-        // $bot->onCommand('start {parameter}', function (Nutgram $bot, $parameter) {
-        //     $bot->sendMessage("The parameter is {$parameter}");
-        // });
+        $bot->onCommand('start {parameter}', function (Nutgram $bot, $parameter) {
+            $bot->sendMessage("The parameter is {$parameter}");
+        });
         
-        $bot->onCommand('start', function(Nutgram $bot){
-            $bot->sendMessage(
-                text: 'Welcome!',
-                reply_markup: InlineKeyboardMarkup::make()
-                    ->addRow(
-                        InlineKeyboardButton::make('A', callback_data: 'type:a'), 
-                        InlineKeyboardButton::make('B', callback_data: 'type:b')
-                    )
-            );
-        });
+        // $bot->onCommand('start', function(Nutgram $bot){
+        //     $bot->sendMessage(
+        //         text: 'Welcome!',
+        //         reply_markup: InlineKeyboardMarkup::make()
+        //             ->addRow(
+        //                 InlineKeyboardButton::make('A', callback_data: 'type:a'), 
+        //                 InlineKeyboardButton::make('B', callback_data: 'type:b')
+        //             )
+        //     );
+        // });
 
-        $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
-            $bot->answerCallbackQuery([
-                'text' => 'You selected A'
-            ]);
-        });
+        // $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
+        //     $bot->answerCallbackQuery([
+        //         'text' => 'You selected A'
+        //     ]);
+        // });
 
-        $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
-            $bot->answerCallbackQuery([
-                'text' => 'You selected B'
-            ]);
-        });
+        // $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
+        //     $bot->answerCallbackQuery([
+        //         'text' => 'You selected B'
+        //     ]);
+        // });
 
-        $bot->onCommand('choice', function(Nutgram $bot){
-            $bot->sendMessage(
-                text: 'Welcome!',
-                reply_markup: ReplyKeyboardMarkup::make()->addRow(
-                    KeyboardButton::make('Give me food!'),
-                    KeyboardButton::make('Give me animal!'),
-                )
-            );
-        });
+        // $bot->onCommand('choice', function(Nutgram $bot){
+        //     $bot->sendMessage(
+        //         text: 'Welcome!',
+        //         reply_markup: ReplyKeyboardMarkup::make()->addRow(
+        //             KeyboardButton::make('Give me food!'),
+        //             KeyboardButton::make('Give me animal!'),
+        //         )
+        //     );
+        // });
 
-        $bot->onText('Give me food!', function (Nutgram $bot) {
-            $bot->sendMessage('Apple!');
-        });
+        // $bot->onText('Give me food!', function (Nutgram $bot) {
+        //     $bot->sendMessage('Apple!');
+        // });
 
-        $bot->onText('Give me animal!', function (Nutgram $bot) {
-            $bot->sendMessage('Dog!');
-        });
+        // $bot->onText('Give me animal!', function (Nutgram $bot) {
+        //     $bot->sendMessage('Dog!');
+        // });
 
         // Called on command "/help"
         $bot->onCommand('help', function (Nutgram $bot) {
