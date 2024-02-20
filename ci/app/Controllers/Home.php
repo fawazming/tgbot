@@ -51,6 +51,17 @@ class Home extends BaseController
             );
         });
 
+        $bot->middleware(function (Nutgram $bot, $next) {
+            $user = get_current_user_from_db($bot->userId());
+            $bot->set('user', $user);
+            $next($bot);
+        });
+
+        $bot->onCommand('user', function (Nutgram $bot) {
+            $user = $bot->get('user');
+            $bot->sendMessage("Hi user $user->name!");
+        });
+
         $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
             $bot->answerCallbackQuery([
                 'text' => 'You selected A'
