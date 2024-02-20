@@ -40,17 +40,6 @@ class Home extends BaseController
             $bot->sendMessage("The parameter is {$parameter}");
         });
 
-        $bot->onCommand('opt', function(Nutgram $bot){
-            $bot->sendMessage(
-                text: 'Welcome!',
-                reply_markup: InlineKeyboardMarkup::make()
-                    ->addRow(
-                        InlineKeyboardButton::make('A', callback_data: 'type:a'),
-                        InlineKeyboardButton::make('B', callback_data: 'type:b')
-                    )
-            );
-        });
-
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = get_current_user_from_db($bot->userId());
             $bot->set('user', $user);
@@ -60,18 +49,6 @@ class Home extends BaseController
         $bot->onCommand('user', function (Nutgram $bot) {
             $user = $bot->get('user');
             $bot->sendMessage("Hi user $user->name!");
-        });
-
-        $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
-            $bot->answerCallbackQuery([
-                'text' => 'You selected A'
-            ]);
-        });
-
-        $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
-            $bot->answerCallbackQuery([
-                'text' => 'You selected B'
-            ]);
         });
 
         $bot->onCommand('choice', function(Nutgram $bot){
