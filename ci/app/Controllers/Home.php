@@ -48,7 +48,7 @@ class Home extends BaseController
 
         $bot->onCommand('user', function (Nutgram $bot) {
             $user = $bot->get('user');
-            $bot->sendMessage("Hi user $user->name!");
+            $bot->sendMessage("Hi user {$user->name}!");
         });
 
         $bot->onCommand('choice', function(Nutgram $bot){
@@ -76,7 +76,8 @@ class Home extends BaseController
 
         // ex. called when a message contains "My name is Mario"
         $bot->onText('My name is {name}', function (Nutgram $bot, $name) {
-            $bot->sendMessage("Hi {$name}");
+             $user = $bot->get('user');
+            $bot->sendMessage("Hi {$name} and id is {$user->name}");
         });
 
         // ex. called when a message contains "I want 6 pizzas"
