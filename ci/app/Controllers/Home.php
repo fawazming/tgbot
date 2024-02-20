@@ -46,22 +46,22 @@ class Home extends BaseController
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
                         InlineKeyboardButton::make('Give me food!'), 
-                        InlineKeyboardButton::make('B', callback_data: 'type:b')
+                        // InlineKeyboardButton::make('B', callback_data: 'type:b')
                     )
             );
         });
 
-        $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
-            $bot->answerCallbackQuery([
-                'text' => 'You selected A'
-            ]);
-        });
+        // $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
+        //     $bot->answerCallbackQuery([
+        //         'text' => 'You selected A'
+        //     ]);
+        // });
 
-        $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
-            $bot->answerCallbackQuery([
-                'text' => 'You selected B'
-            ]);
-        });
+        // $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
+        //     $bot->answerCallbackQuery([
+        //         'text' => 'You selected B'
+        //     ]);
+        // });
 
         $bot->onCommand('choice', function(Nutgram $bot){
             $bot->sendMessage(
