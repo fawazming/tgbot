@@ -45,7 +45,7 @@ class Home extends BaseController
                 text: 'Welcome!',
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
-                        InlineKeyboardButton::make('A', callback_data: 'type:a'), 
+                        InlineKeyboardButton::make('Give me food!'), 
                         InlineKeyboardButton::make('B', callback_data: 'type:b')
                     )
             );
