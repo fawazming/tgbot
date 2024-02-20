@@ -5,6 +5,7 @@ use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Message\Message;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Configuration;
 use SergiX44\Nutgram\RunningMode\Webhook;
 
@@ -37,28 +38,28 @@ class Home extends BaseController
             $bot->sendMessage("The parameter is {$parameter}");
         });
 
-        // $bot->onCommand('start', function(Nutgram $bot){
-        //     $bot->sendMessage(
-        //         text: 'Welcome!',
-        //         reply_markup: InlineKeyboardMarkup::make()
-        //             ->addRow(
-        //                 InlineKeyboardButton::make('A', callback_data: 'type:a'), 
-        //                 InlineKeyboardButton::make('B', callback_data: 'type:b')
-        //             )
-        //     );
-        // });
+        $bot->onCommand('opt', function(Nutgram $bot){
+            $bot->sendMessage(
+                text: 'Welcome!',
+                reply_markup: InlineKeyboardMarkup::make()
+                    ->addRow(
+                        InlineKeyboardButton::make('A', callback_data: 'type:a'), 
+                        InlineKeyboardButton::make('B', callback_data: 'type:b')
+                    )
+            );
+        });
 
-        // $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
-        //     $bot->answerCallbackQuery([
-        //         'text' => 'You selected A'
-        //     ]);
-        // });
+        $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
+            $bot->answerCallbackQuery([
+                'text' => 'You selected A'
+            ]);
+        });
 
-        // $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
-        //     $bot->answerCallbackQuery([
-        //         'text' => 'You selected B'
-        //     ]);
-        // });
+        $bot->onCallbackQueryData('type:b', function(Nutgram $bot){
+            $bot->answerCallbackQuery([
+                'text' => 'You selected B'
+            ]);
+        });
 
         $bot->onCommand('choice', function(Nutgram $bot){
             $bot->sendMessage(
