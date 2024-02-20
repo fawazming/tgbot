@@ -21,7 +21,7 @@ class Home extends BaseController
 
     public function telegramg()
     {
-        echo 'welcom tg g';
+        echo 'welcom tg g1';
     }
 
     public function telegram()
@@ -40,16 +40,16 @@ class Home extends BaseController
             $bot->sendMessage("The parameter is {$parameter}");
         });
 
-        $bot->onCommand('opt', function(Nutgram $bot){
-            $bot->sendMessage(
-                text: 'Welcome!',
-                reply_markup: InlineKeyboardMarkup::make()
-                    ->addRow(
-                        InlineKeyboardButton::make('Give me food!'), 
-                        // InlineKeyboardButton::make('B', callback_data: 'type:b')
-                    )
-            );
-        });
+        // $bot->onCommand('opt', function(Nutgram $bot){
+        //     $bot->sendMessage(
+        //         text: 'Welcome!',
+        //         reply_markup: InlineKeyboardMarkup::make()
+        //             ->addRow(
+        //                 InlineKeyboardButton::make('Give me food!'), 
+        //                 // InlineKeyboardButton::make('B', callback_data: 'type:b')
+        //             )
+        //     );
+        // });
 
         // $bot->onCallbackQueryData('type:a', function(Nutgram $bot){
         //     $bot->answerCallbackQuery([
