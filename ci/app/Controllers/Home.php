@@ -51,7 +51,7 @@ class Home extends BaseController
         // Called when a message contains the command "/start someParameter"
         $bot->onCommand('start', function (Nutgram $bot) {
              // $user = $bot->get('user');
-            $message = $bot->sendMessage(text: "<b> Welcome {$user->first_name}!</b> <p>I am your data subscription bot. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format <b>'Network DataSize PhoneNumber' <i>(e.g., mtn 1gb 1234567890)</i></b>.</p>", parse_mode: ParseMode::HTML,);
+            $message = $bot->sendMessage("<b> Welcome {$user->first_name}!</b> <p>I am your data subscription bot. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format <b>'Network DataSize PhoneNumber' <i>(e.g., mtn 1gb 1234567890)</i></b>.</p>");
         });
 
 
