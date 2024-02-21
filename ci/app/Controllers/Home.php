@@ -92,14 +92,14 @@ class Home extends BaseController
         });
 
         $bot->onText('08108097322', function (Nutgram $bot) {
-            $bot->set('phn', '08108097322');
-            $amt = $bot->get('amt');
+            $bot->setGlobalData('phn', '08108097322');
+            $amt = $bot->getGlobalData('amt');
 
            $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
         });
 
         $bot->onText('MTN {amt}', function (Nutgram $bot, $amt) {
-            $bot->set('amt', $amt);
+            $bot->setGlobalData('amt', $amt);
 
            $bot->sendMessage(
                 text: "Phone Number to recharge MTN {$amt}",
