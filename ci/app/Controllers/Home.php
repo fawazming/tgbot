@@ -26,7 +26,7 @@ class Home extends BaseController
 
     public function telegramg()
     {
-        echo 'welcom tg g1';
+        echo 'welcom tg g';
     }
 
     public function telegram()
