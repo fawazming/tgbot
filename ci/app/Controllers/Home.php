@@ -42,12 +42,13 @@ class Home extends BaseController
         $bot->setRunningMode(Webhook::class);
 
         // Called when a message contains the command "/start someParameter"
-        $bot->onCommand('start {parameter}', function (Nutgram $bot, $parameter) {
-            $bot->sendMessage("The parameter is {$parameter}");
+        $bot->onCommand('start', function (Nutgram $bot) {
+             $user = $bot->get('user');
+            $bot->sendMessage(`Welcome {$user->firstName}! I am your data subscription bot. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format "Network DataSize PhoneNumber" (e.g., mtn 1gb 1234567890).`);
         });
 
         $bot->middleware(function (Nutgram $bot, $next) {
-            $user = $bot->userId();
+            $user = $bot->getUser();
             $bot->set('user', $user);
             $next($bot);
         });
@@ -107,7 +108,11 @@ class Home extends BaseController
 
            $bot->sendMessage(
                 text: "Phone Number to recharge MTN {$amt}",
-                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,));
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
+                    KeyboardButton::make('MTN 500MB'),
+                    KeyboardButton::make('MTN 1GB'),
+                    KeyboardButton::make('MTN 2GB'),
+                ));
         });
 
         $bot->onCommand('data', function (Nutgram $bot) {
