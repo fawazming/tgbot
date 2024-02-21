@@ -44,7 +44,7 @@ class Home extends BaseController
         // Called when a message contains the command "/start someParameter"
         $bot->onCommand('start', function (Nutgram $bot) {
              $user = $bot->get('user');
-            $bot->sendMessage(`Welcome {$user->firstName}! I am your data subscription bot. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format "Network DataSize PhoneNumber" (e.g., mtn 1gb 1234567890).`);
+            $bot->sendMessage(`Welcome {$user->first_name}! I am your data subscription bot. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format "Network DataSize PhoneNumber" (e.g., mtn 1gb 1234567890).`);
         });
 
         $bot->middleware(function (Nutgram $bot, $next) {
@@ -55,7 +55,7 @@ class Home extends BaseController
 
         $bot->onCommand('user', function (Nutgram $bot) {
             $user = $bot->get('user');
-            $bot->sendMessage("Hi user {$user}!");
+            $bot->sendMessage("Hi user {$user->id}!");
         });
 
         $bot->onCommand('opt', function(Nutgram $bot){
@@ -157,7 +157,7 @@ class Home extends BaseController
         // ex. called when a message contains "My name is Mario"
         $bot->onText('My name is {name}', function (Nutgram $bot, $name) {
              $user = $bot->get('user');
-            $bot->sendMessage("Hi {$name} and id is {$user}");
+            $bot->sendMessage("Hi {$name} and id is {$user->id}");
         });
 
         // ex. called when a message contains "I want 6 pizzas"
