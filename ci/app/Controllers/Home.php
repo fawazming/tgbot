@@ -102,7 +102,7 @@ class Home extends BaseController
             $bot->set('amt', $amt);
 
            $bot->sendMessage(
-                text: "Phone Number to recharge MTN {$amount}",
+                text: "Phone Number to recharge MTN {$amt}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,));
         });
 
