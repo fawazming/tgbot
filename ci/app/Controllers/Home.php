@@ -48,7 +48,7 @@ class Home extends BaseController
         });
 
         $bot->middleware(function (Nutgram $bot, $next) {
-            $user = $bot->getUser();
+            $user = $bot->user();
             $bot->set('user', $user);
             $next($bot);
         });
