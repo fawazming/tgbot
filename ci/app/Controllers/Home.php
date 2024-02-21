@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use CodeIgniter\Psr\Cache\SimpleCache;
+// use CodeIgniter\Psr\Cache\SimpleCache;
 
 use SergiX44\Nutgram\Nutgram;
 // use SergiX44\Nutgram\Handlers\Listeners;
@@ -30,11 +30,11 @@ class Home extends BaseController
 
     public function telegram()
     {
-        $psr16Cache = new SimpleCache();
+        // $psr16Cache = new SimpleCache();
         // https://api.telegram.org/bot6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg/setWebhook?url=https://tgbot.sgm.ng/telegram
         
         $config = new Configuration(
-                cache: $psr16Cache,
+                // cache: $psr16Cache,
             clientTimeout: 10, // default in seconds, when contacting the Telegram API
         );
 
