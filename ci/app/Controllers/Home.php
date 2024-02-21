@@ -90,6 +90,46 @@ class Home extends BaseController
                 ),
             );
         });
+
+        $bot->onCommand('data', function (Nutgram $bot) {
+            $bot->sendMessage(
+                text: 'Data Size? 1GB or 500MB',
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type something', selective: true,)->addRow(
+                    KeyboardButton::make('MTN 500MB'),
+                    KeyboardButton::make('MTN 1GB'),
+                    KeyboardButton::make('MTN 2GB'),
+                )
+            );
+            
+            $bot->stepConversation(function (Nutgram $bot){
+                $bot->onText('MTN (size)', function (Nutgram $bot, $amount) {
+                   $bot->sendMessage(
+                        text: 'Phone Number to recharge',
+                        reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,));
+                });
+            });
+
+            $bot->stepConversation(function (Nutgram $bot){
+                   $bot->sendMessage('Phone Number to recharge');
+            });
+                $bot->endConversation();
+        });
+
+        // $bot->onCommand('start', 'firstStep');
+
+
+        // function firstStep(Nutgram $bot)
+        // {
+        //     // do stuff
+        //     $bot->stepConversation('secondStep');
+        // }
+
+        // function secondStep(Nutgram $bot)
+        // {
+        //     // do stuff
+        //     $bot->endConversation();
+        // }
+
         $bot->onText('Give me food!', function (Nutgram $bot) {
             $bot->sendMessage('Apple!');
         });
