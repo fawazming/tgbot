@@ -91,6 +91,21 @@ class Home extends BaseController
             );
         });
 
+        $bot->onText('08108097322', function (Nutgram $bot) {
+            $bot->set('phn', '08108097322');
+            $amt = $bot->get('amt');
+
+           $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
+        });
+
+        $bot->onText('MTN {amt}', function (Nutgram $bot, $amt) {
+            $bot->set('amt', $amt);
+
+           $bot->sendMessage(
+                text: "Phone Number to recharge MTN {$amount}",
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,));
+        });
+
         $bot->onCommand('data', function (Nutgram $bot) {
             $bot->sendMessage(
                 text: 'Data Size? 1GB or 500MB',
@@ -100,19 +115,6 @@ class Home extends BaseController
                     KeyboardButton::make('MTN 2GB'),
                 )
             );
-            
-            $bot->stepConversation(function (Nutgram $bot){
-                $bot->onText('MTN (size)', function (Nutgram $bot, $amount) {
-                   $bot->sendMessage(
-                        text: 'Phone Number to recharge',
-                        reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,));
-                });
-            });
-
-            $bot->stepConversation(function (Nutgram $bot){
-                   $bot->sendMessage('Phone Number to recharge');
-            });
-                $bot->endConversation();
         });
 
         // $bot->onCommand('start', 'firstStep');
