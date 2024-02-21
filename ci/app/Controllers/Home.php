@@ -5,13 +5,14 @@ namespace App\Controllers;
 
 use SergiX44\Nutgram\Nutgram;
 // use SergiX44\Nutgram\Handlers\Listeners;
-// use SergiX44\Nutgram\Telegram\Types\Message\Message;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ForceReply;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
+use SergiX44\Nutgram\Telegram\Properties\ParseMode;
+use SergiX44\Nutgram\Telegram\Types\Message\Message;
 use SergiX44\Nutgram\Configuration;
 use SergiX44\Nutgram\RunningMode\Webhook;
 
@@ -41,17 +42,18 @@ class Home extends BaseController
         $bot = new Nutgram('6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg', $config);
         $bot->setRunningMode(Webhook::class);
 
-        // Called when a message contains the command "/start someParameter"
-        $bot->onCommand('start', function (Nutgram $bot) {
-             // $user = $bot->get('user');
-            $bot->sendMessage('Welcome {$user->first_name}! I am your data subscription bot. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format "Network DataSize PhoneNumber" (e.g., mtn 1gb 1234567890).');
-        });
-
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
             $bot->set('user', $user);
             $next($bot);
         });
+
+        // Called when a message contains the command "/start someParameter"
+        $bot->onCommand('start', function (Nutgram $bot) {
+             // $user = $bot->get('user');
+            $bot->sendMessage("<h1> Welcome {$user->first_name}!</h1> <p>I am your data subscription bot. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format <b>'Network DataSize PhoneNumber' <i>(e.g., mtn 1gb 1234567890)</i></b>.</p>", parse_mode: ParseMode::HTML,);
+        });
+
 
         $bot->onCommand('user', function (Nutgram $bot) {
             $user = $bot->get('user');
