@@ -6,6 +6,8 @@ use SergiX44\Nutgram\Nutgram;
 // use SergiX44\Nutgram\Telegram\Types\Message\Message;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\ForceReply;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Configuration;
@@ -51,16 +53,43 @@ class Home extends BaseController
             $bot->sendMessage("Hi user {$user}!");
         });
 
+        $bot->onCommand('opt', function(Nutgram $bot){
+            $bot->sendMessage(
+                text: 'Welcome!',
+                reply_markup: InlineKeyboardMarkup::make()
+                    ->addRow(
+                        InlineKeyboardButton::make('Google', url:'https://google.com'),
+                    )
+            );
+        });
+
         $bot->onCommand('choice', function(Nutgram $bot){
             $bot->sendMessage(
                 text: 'Welcome!',
-                reply_markup: ReplyKeyboardMarkup::make()->addRow(
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type something', selective: true,)->addRow(
                     KeyboardButton::make('Give me food!'),
                     KeyboardButton::make('Give me animal!'),
                 )
             );
         });
 
+        $bot->onCommand('cancel', function (Nutgram $bot) {
+            $bot->sendMessage(
+                text: 'Removing keyboard...',
+                reply_markup: ReplyKeyboardRemove::make(true),
+            )?->delete();
+        });
+
+        $bot->onCommand('freply', function(Nutgram $bot){
+            $bot->sendMessage(
+                text: 'Welcome!',
+                reply_markup: ForceReply::make(
+                    force_reply: true,
+                    input_field_placeholder: 'Type something',
+                    selective: true,
+                ),
+            );
+        });
         $bot->onText('Give me food!', function (Nutgram $bot) {
             $bot->sendMessage('Apple!');
         });
@@ -77,7 +106,7 @@ class Home extends BaseController
         // ex. called when a message contains "My name is Mario"
         $bot->onText('My name is {name}', function (Nutgram $bot, $name) {
              $user = $bot->get('user');
-            $bot->sendMessage("Hi {$name} and id is {$user->id}");
+            $bot->sendMessage("Hi {$name} and id is {$user}");
         });
 
         // ex. called when a message contains "I want 6 pizzas"
