@@ -11,8 +11,8 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ForceReply;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
-use SergiX44\Nutgram\Telegram\Properties\ParseMode;
-use SergiX44\Nutgram\Telegram\Types\Message\Message;
+// use SergiX44\Nutgram\Telegram\Properties\ParseMode;
+// use SergiX44\Nutgram\Telegram\Types\Message\Message;
 use SergiX44\Nutgram\Configuration;
 use SergiX44\Nutgram\RunningMode\Webhook;
 
