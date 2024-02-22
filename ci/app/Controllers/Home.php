@@ -65,7 +65,8 @@ class Home extends BaseController
                 text: 'Welcome!',
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
-                        InlineKeyboardButton::make('Google', url:'https://google.com'),
+                        InlineKeyboardButton::make('Google', url:'https://google.com'),tg://resolve?domain=vote
+                        InlineKeyboardButton::make('VoteBot', url:'tg://resolve?domain=vote'),
                     )
             );
         });
@@ -102,6 +103,20 @@ class Home extends BaseController
             $bot->setUserData('phn', '08108097322');
             $amt = $bot->getUserData('amt');
 
+           $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
+        });
+
+        $bot->onText('{net} {amt} ([0-9]{10}|[0-9]{11})', function (Nutgram $bot, $net, $amt, $phn) {
+           $bot->sendMessage(
+                text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
+                    KeyboardButton::make('MTN 500MB'),
+                    KeyboardButton::make('MTN 1GB'),
+                    KeyboardButton::make('MTN 2GB'),
+                ));
+        });
+
+        $bot->onText('{net} {amt} ([0-9]{10}|[0-9]{11})', function (Nutgram $bot) {
            $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
         });
 
