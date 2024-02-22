@@ -110,8 +110,8 @@ class Home extends BaseController
            $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
-                    KeyboardButton::make("✔️ MTN ${strtoupper($amt)} {$phn}"),
-                    KeyboardButton::make("❌ MTN ${strtoupper($amt)} {$phn}"),
+                    KeyboardButton::make("✔️ MTN ".strtoupper($amt)." {$phn}"),
+                    KeyboardButton::make("❌ MTN ".strtoupper($amt)." {$phn}"),
                 ));
         });
 
