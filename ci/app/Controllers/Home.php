@@ -57,13 +57,21 @@ class Home extends BaseController
 You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format 'Network DataSize PhoneNumber' <i>(e.g., mtn 1gb 1234567890)</i>
 
 You can <b>fund your wallet</b> by using the command /fund 
-<b>Check your balance</b> by using command wallet
+<b>Check your balance</b> by using command /wallet
 Also choosing to register from the button below will retreive you <u>telegram data</u> as a means of Identification", 
                 parse_mode: ParseMode::HTML,
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: '', selective: true,)->addRow(
                             KeyboardButton::make('Register'),
                             KeyboardButton::make('/cancel'),
                         )
+            );
+        });
+
+        $bot->onCommand('fund', function (Nutgram $bot) {
+            $user = $bot->get('user');
+            $bot->sendMessage(text: 
+"Please note that there's a &#x20a6;15 charge on amount less than 1000", 
+                parse_mode: ParseMode::HTML,
             );
         });
 
