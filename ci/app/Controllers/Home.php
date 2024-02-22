@@ -66,7 +66,7 @@ class Home extends BaseController
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
                         InlineKeyboardButton::make('Google', url:'https://google.com'),
-                        InlineKeyboardButton::make('VoteBot', url:'tg://resolve?domain=vote'),
+                        // InlineKeyboardButton::make('VoteBot', url:'tg://resolve?domain=vote'),
                     )
             );
         });
@@ -110,9 +110,8 @@ class Home extends BaseController
            $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
-                    KeyboardButton::make('MTN 500MB'),
-                    KeyboardButton::make('MTN 1GB'),
-                    KeyboardButton::make('MTN 2GB'),
+                    KeyboardButton::make("✔️ MTN ${strtoupper($amt)} {$phn}"),
+                    KeyboardButton::make("❌ MTN ${strtoupper($amt)} {$phn}"),
                 ));
         });
 
