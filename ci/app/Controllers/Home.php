@@ -70,9 +70,21 @@ Also choosing to register from the button below will retreive you <u>telegram da
         $bot->onCommand('fund', function (Nutgram $bot) {
             $user = $bot->get('user');
             $bot->sendMessage(text: 
-"Please note that there's a &#x20a6;15 charge on amount less than 1000", 
+"Please note that there's a <b>₦15</b> charge on amount less than <b>₦1000</b>
+and <b>₦35</b> charge on any amount greater than ₦1000
+
+Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>", 
                 parse_mode: ParseMode::HTML,
             );
+        });
+
+        $bot->onText('(fund|Fund) {amt}', function (Nutgram $bot, $c, $amt) {
+            //Generate link from flutterwave or payvessel
+           $bot->sendMessage(text: "Follow the link below to make the payment of {$amt}",
+                reply_markup: InlineKeyboardMarkup::make()
+                    ->addRow(
+                        InlineKeyboardButton::make("Pay {$amt}", url:'https://google.com'),
+                    ));
         });
 
 
