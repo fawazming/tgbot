@@ -53,11 +53,11 @@ class Home extends BaseController
             $user = $bot->get('user');
             $bot->sendMessage(text: "Welcome {$user->first_name}!
                 <b>I am your data subscription bot</b>. You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format 'Network DataSize PhoneNumber' (e.g., mtn 1gb 1234567890)
-                You can fund your wallet by using the command /fund 
+                You can fund your wallet by using the command fund 
                 Also choosing to register from the button below will retreive you telegram data as a means of Identification", parse_mode: ParseMode::HTML,
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: '', selective: true,)->addRow(
                             KeyboardButton::make('Register'),
-                            KeyboardButton::make('/cancel'),
+                            KeyboardButton::make('cancel'),
                         )
             );
         });
