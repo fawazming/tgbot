@@ -106,7 +106,7 @@ class Home extends BaseController
            $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
         });
 
-        $bot->onText('{net} {amt} ([0-9]{10}|[0-9]{11})', function (Nutgram $bot, $net, $amt, $phn) {
+        $bot->onText('{net} {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
            $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
@@ -116,7 +116,7 @@ class Home extends BaseController
                 ));
         });
 
-        $bot->onText('{net} {amt} ([0-9]{10}|[0-9]{11})', function (Nutgram $bot) {
+        $bot->onText('x {net} {amt} ([0-9]+)', function (Nutgram $bot) {
            $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
         });
 
