@@ -11,7 +11,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ForceReply;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
-// use SergiX44\Nutgram\Telegram\Properties\ParseMode;
+use SergiX44\Nutgram\Telegram\Properties\ParseMode;
 // use SergiX44\Nutgram\Telegram\Types\Message\Message;
 use SergiX44\Nutgram\Configuration;
 use SergiX44\Nutgram\RunningMode\Webhook;
@@ -66,7 +66,7 @@ class Home extends BaseController
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
                         InlineKeyboardButton::make('Google', url:'https://google.com'),
-                        // InlineKeyboardButton::make('VoteBot', url:'tg://resolve?domain=vote'),
+                        InlineKeyboardButton::make('VoteBot', url:'tg://resolve?domain=vote'),
                     )
             );
         });
@@ -109,7 +109,7 @@ class Home extends BaseController
         $bot->onText('(mtn|MTN|Mtn) {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
            $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
-                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
                     KeyboardButton::make("✔️ MTN ".strtoupper($amt)." {$phn}"),
                     KeyboardButton::make("❌ MTN ".strtoupper($amt)." {$phn}"),
                 ));
