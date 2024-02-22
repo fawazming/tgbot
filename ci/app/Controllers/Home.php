@@ -56,13 +56,13 @@ class Home extends BaseController
 <b>I am your data subscription bot</b>. 
 You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format 'Network DataSize PhoneNumber' <i>(e.g., mtn 1gb 1234567890)</i>
 
-You can <b>fund your wallet</b> by using the command fund 
+You can <b>fund your wallet</b> by using the command /fund 
 <b>Check your balance</b> by using command wallet
 Also choosing to register from the button below will retreive you <u>telegram data</u> as a means of Identification", 
                 parse_mode: ParseMode::HTML,
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: '', selective: true,)->addRow(
                             KeyboardButton::make('Register'),
-                            KeyboardButton::make('cancel'),
+                            KeyboardButton::make('/cancel'),
                         )
             );
         });
