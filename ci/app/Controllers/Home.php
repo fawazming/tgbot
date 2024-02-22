@@ -115,9 +115,13 @@ class Home extends BaseController
                 ));
         });
 
-        // $bot->onText('x {net} {amt} ([0-9]+)', function (Nutgram $bot) {
-        //    $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
-        // });
+        $bot->onText('✔️ MTN {amt} ([0-9]+)', function (Nutgram $bot, $amt, $phn) {
+           $bot->sendMessage("Successfully recharged MTN {$amt} for {$phn}");
+        });
+
+        $bot->onText('❌ MTN {amt} ([0-9]+)', function (Nutgram $bot, $amt, $phn) {
+           $bot->sendMessage("You jus cancelled the recharge of MTN {$amt} for {$phn}");
+        });
 
         $bot->onText('MTN {amt}', function (Nutgram $bot, $amt) {
             $bot->setUserData('amt', $amt);
