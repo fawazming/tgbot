@@ -40,11 +40,8 @@ class Home extends BaseController
          $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser {$user->id}"]);
 
         if(($User = $Users->where('tg_id', $user->id)->findAll()) != []) {
-         $log->insert(['name'=>'middlewareCheckUser','data'=>"in ifElse true"]);
-
             return $User[0];
         }else{
-         $log->insert(['name'=>'middlewareCheckUser','data'=>"in ifElse false"]);
             $this->registerUser($user);
         }
     }
@@ -87,15 +84,7 @@ class Home extends BaseController
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
             $User = $this->checkUser($user);
-
-            // $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
-
-            // if(!$User) {
-            //     $this->registerUser($user);
-            // }else{
-            //     $user = $User;
-            // }
-            $bot->set('user', $user);
+            $bot->set('user', $User);
             $next($bot);
         });
 
@@ -103,7 +92,7 @@ class Home extends BaseController
         $bot->onCommand('start', function (Nutgram $bot) {
             $user = $bot->get('user');
             $bot->sendMessage(text: 
-"Welcome {$user->first_name}!
+"Welcome {$user['fname']}!
 <b>I am your data subscription bot</b>. 
 You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format 'Network DataSize PhoneNumber' <i>(e.g., mtn 1gb 1234567890)</i>
 
