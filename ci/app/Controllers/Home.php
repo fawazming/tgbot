@@ -45,7 +45,6 @@ class Home extends BaseController
             return $User[0];
         }else{
          $log->insert(['name'=>'middlewareCheckUser','data'=>"in ifElse false"]);
-
             $this->registerUser($user);
         }
     }
@@ -57,7 +56,7 @@ class Home extends BaseController
             'fname'=> $user->first_name,
             'tg_id'=> $user->id,
             'phone'=> '',
-            'email'=> $user->email,
+            'email'=> '',
             'balance' => '0',
             'clearance' => '1',
             'pin' => '0000'
