@@ -83,7 +83,7 @@ class Home extends BaseController
             $user = $bot->user();
             // $User = $this->checkUser($user->id);
 
-            if(($User = $Users->where(['tg_id'=>$user->id])->findAll()) != []) {
+            if(true) {
                 // $userd = $User[0];
                 $log->insert(['name'=>'middlewareCheckUser','data'=>'responed true']);
 
