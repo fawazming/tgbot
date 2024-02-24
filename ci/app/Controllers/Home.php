@@ -72,7 +72,7 @@ class Home extends BaseController
         $Users = new \App\Models\Users();
         $incoming = $this->request->getGet();
         if($incoming['status'] == 'completed'){
-            $res = $log->where(['name'=>'pay_'.$incoming['tx_ref']])findAll();
+            $res = $log->where(['name'=>'pay_'.$incoming['tx_ref']])->findAll();
             if($res){
                 $uid = json_decode($res[0]['data'])['tg_id'];
                 $amt = (json_decode($res[0]['data'])['amt']) - 15;
