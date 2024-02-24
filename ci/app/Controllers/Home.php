@@ -123,7 +123,7 @@ and <b>₦35</b> charge on any amount greater than ₦1000
 
 Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>", 
                 parse_mode: ParseMode::HTML,
-            );
+            )
         });
 
         $bot->onText('(fund|Fund) {amt}', function (Nutgram $bot, $c, $amt) {
