@@ -104,7 +104,7 @@ class Home extends BaseController
 
             return $link;
         }else{
-            return "notAvailableYet";
+            return "http://notAvailableYet.co";
         }
     }
 
@@ -155,7 +155,10 @@ You can <b>fund your wallet</b> by using the command /fund
 "Please note that there's a <b>₦15</b> charge on amount less than <b>₦1000</b>
 and <b>₦35</b> charge on any amount greater than ₦1000
 
-Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>", 
+Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
+
+
+<b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
                 parse_mode: ParseMode::HTML,
             );
         });
