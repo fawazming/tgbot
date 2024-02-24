@@ -140,7 +140,7 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
            $bot->sendMessage(text: "Follow the link below to make the payment of ₦{$amt}",
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
-                        InlineKeyboardButton::make("Pay ₦{$amt}", url: $PayLink ),
+                        InlineKeyboardButton::make("Pay {$amt}", url: $PayLink ),
                     ));
         } );
 
