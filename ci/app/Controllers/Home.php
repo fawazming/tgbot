@@ -33,8 +33,40 @@ class Home extends BaseController
         // echo 'welcom tg g';
     }
 
+    private function checkUser($tg_id)
+    {
+        $Users = new \App\Models\Users();
+        if($User = $Users->where('tg_id', $tg_id)->find()){
+            return $User[0];
+        }else{
+            return 0;
+        }
+    }
+
+    private function registerUser($user)
+    {
+        $Users = new \App\Models\Users();
+        $data = [
+            'fname'=> $user->first_name,
+            'tg_id'=> $user->id,
+            'phone'=> '',
+            'email'=> $user->email,
+            'balance' => '0',
+            'clearance' => '1',
+            'pin' => '0000'
+
+        ];
+        $Users->insert($data);
+    }
+
     public function telegram()
     {
+
+        //LOGGER
+        $log = new \App\Models\Logs();
+        $Pricing = new \App\Models\Pricing();
+        $incoming = $this->request->getPostGet();
+        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
         // $psr16Cache = new SimpleCache();
         // https://api.telegram.org/bot6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg/setWebhook?url=https://tgbot.sgm.ng/telegram
         
@@ -46,14 +78,13 @@ class Home extends BaseController
         $bot = new Nutgram('6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg', $config);
         $bot->setRunningMode(Webhook::class);
 
-    
-        //LOGGER
-        $log = new \App\Models\Logs();
-        $incoming = $this->request->getPostGet();
-        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
-
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
+            if(!$User = $this->checkUser($user->id)){
+                $this->registerUser($user);
+            }else{
+                $user = $User;
+            }
             $bot->set('user', $user);
             $next($bot);
         });
