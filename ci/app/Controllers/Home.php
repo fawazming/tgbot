@@ -63,16 +63,17 @@ class Home extends BaseController
         return $data;
     }
 
-    // public function generatePaylink($amt)
-    // {
-    //      $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
+    public function generatePaylink($amt)
+    {
+        $log = new \App\Models\Logs();
+         $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
 
-    //     if($amt < 1000){
-    //         return "http://linkless1000.co";
-    //     }else{
-    //         return "http://linkmore1000.co";
-    //     }
-    // }
+        if($amt < 1000){
+            return "http://linkless1000.co";
+        }else{
+            return "http://linkmore1000.co";
+        }
+    }
 
     public function telegram()
     {
@@ -123,12 +124,12 @@ and <b>₦35</b> charge on any amount greater than ₦1000
 
 Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>", 
                 parse_mode: ParseMode::HTML,
-            )
+            );
         });
 
         $bot->onText('(fund|Fund) {amt}', function (Nutgram $bot, $c, $amt) {
             //Generate link from flutterwave or payvessel
-            // $PayLink = $this->generatePaylink($amt);
+            $PayLink = $this->generatePaylink($amt);
             // $PayLink = '';
             // $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
 
