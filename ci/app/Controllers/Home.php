@@ -37,7 +37,7 @@ class Home extends BaseController
     {
         $Users = new \App\Models\Users();
         $log = new \App\Models\Logs();
-         $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser ".json_encode($user)]);
+         // $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser ".json_encode($user)]);
 
         if(($User = $Users->where('tg_id', $user->id)->findAll()) != []) {
             return $User[0];
@@ -65,12 +65,12 @@ class Home extends BaseController
 
     public function generatePaylink($amt)
     {
-         $log->insert(['name'=>'generatePaylink','data'=>"in Link ".($amt)]);
+         $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
 
         if($amt < 1000){
-            return 'http://linkless1000';
+            return "http://linkless1000.co";
         }else{
-            return 'http://linkmore1000';
+            return "http://linkmore1000.co";
         }
     }
 
