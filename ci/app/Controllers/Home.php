@@ -33,31 +33,30 @@ class Home extends BaseController
         // echo 'welcom tg g';
     }
 
-    // private function checkUser($tg_id)
-    // {
-    //     $Users = new \App\Models\Users();
-    //     if($User = $Users->where('tg_id', $tg_id)->find()){
-    //         return $User[0];
-    //     }else{
-    //         return 0;
-    //     }
-    // }
+    public function checkUser($tg_id)
+    {
+        $Users = new \App\Models\Users();
+        if($User = $Users->where('tg_id', $tg_id)->find()){
+            return $User[0];
+        }else{
+            return false;
+        }
+    }
 
-    // private function registerUser($user)
-    // {
-    //     $Users = new \App\Models\Users();
-    //     $data = [
-    //         'fname'=> $user->first_name,
-    //         'tg_id'=> $user->id,
-    //         'phone'=> '',
-    //         'email'=> $user->email,
-    //         'balance' => '0',
-    //         'clearance' => '1',
-    //         'pin' => '0000'
-
-    //     ];
-    //     $Users->insert($data);
-    // }
+    public function registerUser($user)
+    {
+        $Users = new \App\Models\Users();
+        $data = [
+            'fname'=> $user->first_name,
+            'tg_id'=> $user->id,
+            'phone'=> '',
+            'email'=> $user->email,
+            'balance' => '0',
+            'clearance' => '1',
+            'pin' => '0000'
+        ];
+        $Users->insert($data);
+    }
 
     public function telegram()
     {
@@ -81,33 +80,15 @@ class Home extends BaseController
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
-            // $User = $this->checkUser($user->id);
-
-            if(true) {
-                // $userd = $User[0];
-                $log->insert(['name'=>'middlewareCheckUser','data'=>'responed true']);
-
-            }else{
-                $log->insert(['name'=>'middlewareCheckUser','data'=>'responed false']);
-             //    $data = [
-             //        'fname'=> $user->first_name,
-             //        'tg_id'=> $user->id,
-             //        'phone'=> '',
-             //        'email'=> $user->email,
-             //        'balance' => '0',
-             //        'clearance' => '1',
-             //        'pin' => '0000'
-             //    ];
-             // $Users->insert($data);
-            }
+            $User = $this->checkUser($user->id);
 
             // $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
 
-            // if(!$User) {
-                
-            // }else{
-            //     $user = $User;
-            // }
+            if(!$User) {
+                $this->registerUser($user);
+            }else{
+                $user = $User;
+            }
             $bot->set('user', $user);
             $next($bot);
         });
