@@ -68,15 +68,28 @@ class Home extends BaseController
 
     public function verifyPay()
     {
+        $log = new \App\Models\Logs();
+        $Users = new \App\Models\Users();
         $incoming = $this->request->getGet();
-        dd($incoming);
+        if($incoming['status'] == 'completed'){
+            $res = $log->where('name'=>'pay_'.$incoming['tx_ref'])findAll();
+            if($res){
+                $uid = json_decode($res[0]['data'])['tg_id'];
+                $amt = (json_decode($res[0]['data'])['amt']) - 15;
+
+                 dd($res);
+
+
+            }
+        }
     }
 
     public function generatePaylink($amt, $user)
     {
         $log = new \App\Models\Logs();
         $client = \Config\Services::curlrequest();
-         $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
+        $tx = "sgmData-tx-{$user['tg_id']}t".rand()*24;
+        $log->insert(['name'=>'pay_'.$tx,'data'=>"{'amt':{$amt}, 'tg_id': {$user['tg_id']}, 'fname':{$user['fname']} }"] );
 
         if($amt < 1016){
             $response = $client->request('POST', 'https://api.flutterwave.com/v3/payments', [
@@ -84,7 +97,7 @@ class Home extends BaseController
                     'Authorization' => 'Bearer '.$_ENV['flw'],
                 ],
                 'json' => [
-                    "tx_ref"=>"sgmData-tx-08767667t90".rand()*24,
+                    "tx_ref"=>$tx,
                     "amount"=> $amt,
                     "currency"=> "NGN",
                     "redirect_url"=> "https://t.me/Rayyan234bot",
@@ -107,9 +120,6 @@ class Home extends BaseController
             if (strpos($response->header('content-type'), 'application/json') !== false) {
                 $body = json_decode($body);
             }
-
-         $log->insert(['name'=>'generatePaylink','data'=>"in lt 1000 ".json_encode($body)]);
-
 
             $link = $body->data->link;
 
