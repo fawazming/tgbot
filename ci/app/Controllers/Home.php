@@ -63,7 +63,7 @@ class Home extends BaseController
         return $data;
     }
 
-    public function generatePaylink($amt)
+    public function generatePaylink($amt, $user)
     {
         $log = new \App\Models\Logs();
         $client = \Config\Services::curlrequest();
@@ -102,7 +102,7 @@ class Home extends BaseController
             }
 
          $log->insert(['name'=>'generatePaylink','data'=>"in lt 1000 ".json_encode($body)]);
-            
+
 
             $link = $body->data->link;
 
