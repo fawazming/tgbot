@@ -65,7 +65,7 @@ class Home extends BaseController
 
     public function generatePaylink($amt)
     {
-         $log->insert(['name'=>'generatePaylink','data'=>"in Link ".json_encode($amt)]);
+         $log->insert(['name'=>'generatePaylink','data'=>"in Link ".($amt)]);
 
         if($amt < 1000){
             return 'http://linkless1000';
