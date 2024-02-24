@@ -95,10 +95,14 @@ class Home extends BaseController
                     ],
                 ]
             ] );
+
             $body = $response->getBody();
             if (strpos($response->header('content-type'), 'application/json') !== false) {
                 $body = json_decode($body);
             }
+
+         $log->insert(['name'=>'generatePaylink','data'=>"in lt 1000 ".json_encode($body)]);
+            
 
             $link = $body->data->link;
 
