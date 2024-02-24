@@ -9,7 +9,7 @@ class Logs extends Model
     protected $primaryKey = 'id';
 
     protected $returnType = 'array';
-    protected $useSoftDeletes = false;
+    protected $useSoftDeletes = true;
     protected $allowedFields = ['name','data'];
 
     protected $useTimestamps = true;

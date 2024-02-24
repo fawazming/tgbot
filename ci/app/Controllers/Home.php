@@ -46,13 +46,14 @@ class Home extends BaseController
         $bot = new Nutgram('6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg', $config);
         $bot->setRunningMode(Webhook::class);
 
-        //LOGGER
-        $log = new \App\Models\Logs();
-        $incoming = $this->request->getPost();
-        $res = $log->insert(['name'=>'tgIncoming','data'=>$incoming]);
+        
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
+            //LOGGER
+            $log = new \App\Models\Logs();
+            $incoming = $this->request->getPost();
+            $res = $log->insert(['name'=>'tgIncoming','data'=>$incoming]);
             $bot->set('user', $user);
             $next($bot);
         });
