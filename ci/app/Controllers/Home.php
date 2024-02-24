@@ -33,37 +33,38 @@ class Home extends BaseController
         // echo 'welcom tg g';
     }
 
-    private function checkUser($tg_id)
-    {
-        $Users = new \App\Models\Users();
-        if($User = $Users->where('tg_id', $tg_id)->find()){
-            return $User[0];
-        }else{
-            return 0;
-        }
-    }
+    // private function checkUser($tg_id)
+    // {
+    //     $Users = new \App\Models\Users();
+    //     if($User = $Users->where('tg_id', $tg_id)->find()){
+    //         return $User[0];
+    //     }else{
+    //         return 0;
+    //     }
+    // }
 
-    private function registerUser($user)
-    {
-        $Users = new \App\Models\Users();
-        $data = [
-            'fname'=> $user->first_name,
-            'tg_id'=> $user->id,
-            'phone'=> '',
-            'email'=> $user->email,
-            'balance' => '0',
-            'clearance' => '1',
-            'pin' => '0000'
+    // private function registerUser($user)
+    // {
+    //     $Users = new \App\Models\Users();
+    //     $data = [
+    //         'fname'=> $user->first_name,
+    //         'tg_id'=> $user->id,
+    //         'phone'=> '',
+    //         'email'=> $user->email,
+    //         'balance' => '0',
+    //         'clearance' => '1',
+    //         'pin' => '0000'
 
-        ];
-        $Users->insert($data);
-    }
+    //     ];
+    //     $Users->insert($data);
+    // }
 
     public function telegram()
     {
 
         //LOGGER
         $log = new \App\Models\Logs();
+        $Users = new \App\Models\Users();
         // $Pricing = new \App\Models\Pricing();
         // $incoming = $this->request->getPostGet();
         // $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
@@ -82,23 +83,22 @@ class Home extends BaseController
             $user = $bot->user();
             // $User = $this->checkUser($user->id);
 
-            $Users = new \App\Models\Users();
-            if($User = $Users->where('tg_id', $user->id)->find()){
-                $user = $User[0];
-            }else{
-                $data = [
-                    'fname'=> $user->first_name,
-                    'tg_id'=> $user->id,
-                    'phone'=> '',
-                    'email'=> $user->email,
-                    'balance' => '0',
-                    'clearance' => '1',
-                    'pin' => '0000'
-                ];
-             $Users->insert($data);
-            }
+            // if($User = $Users->where('tg_id', $user->id)->find()){
+            //     $user = $User[0];
+            // }else{
+            //     $data = [
+            //         'fname'=> $user->first_name,
+            //         'tg_id'=> $user->id,
+            //         'phone'=> '',
+            //         'email'=> $user->email,
+            //         'balance' => '0',
+            //         'clearance' => '1',
+            //         'pin' => '0000'
+            //     ];
+            //  $Users->insert($data);
+            // }
 
-            $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
+            // $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
 
             // if(!$User) {
                 
