@@ -65,8 +65,8 @@ class Home extends BaseController
         //LOGGER
         $log = new \App\Models\Logs();
         // $Pricing = new \App\Models\Pricing();
-        $incoming = $this->request->getPostGet();
-        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
+        // $incoming = $this->request->getPostGet();
+        // $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
         // $psr16Cache = new SimpleCache();
         // https://api.telegram.org/bot6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg/setWebhook?url=https://tgbot.sgm.ng/telegram
         
@@ -80,7 +80,10 @@ class Home extends BaseController
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
-            if(($User = $this->checkUser($user->id)) == 0) {
+            $User = $this->checkUser($user->id);
+            $log->insert(['name'=>'middlewareCheckUser','data'=>json_encode($User)]);
+
+            if(!$User) {
                 $this->registerUser($user);
             }else{
                 $user = $User;
