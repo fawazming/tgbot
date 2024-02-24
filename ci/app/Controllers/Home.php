@@ -80,14 +80,31 @@ class Home extends BaseController
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
-            $User = $this->checkUser($user->id);
+            // $User = $this->checkUser($user->id);
+
+            $Users = new \App\Models\Users();
+            if($User = $Users->where('tg_id', $user->id)->find()){
+                $user = $User[0];
+            }else{
+                $data = [
+                    'fname'=> $user->first_name,
+                    'tg_id'=> $user->id,
+                    'phone'=> '',
+                    'email'=> $user->email,
+                    'balance' => '0',
+                    'clearance' => '1',
+                    'pin' => '0000'
+                ];
+             $Users->insert($data);
+            }
+
             $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
 
-            if(!$User) {
-                $this->registerUser($user);
-            }else{
-                $user = $User;
-            }
+            // if(!$User) {
+                
+            // }else{
+            //     $user = $User;
+            // }
             $bot->set('user', $user);
             $next($bot);
         });
