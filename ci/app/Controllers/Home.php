@@ -49,12 +49,12 @@ class Home extends BaseController
     
         //LOGGER
         $log = new \App\Models\Logs();
-        $incoming = $this->request->getPost();
+        $incoming = $this->request->getPostGet();
         $str = "";
         foreach ($incoming as $value) {
             $str .= $value;
         }
-        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".unserialize($incoming)]);
+        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".($incoming)]);
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
