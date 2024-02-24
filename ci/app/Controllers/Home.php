@@ -64,7 +64,7 @@ class Home extends BaseController
 
         //LOGGER
         $log = new \App\Models\Logs();
-        $Pricing = new \App\Models\Pricing();
+        // $Pricing = new \App\Models\Pricing();
         $incoming = $this->request->getPostGet();
         $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
         // $psr16Cache = new SimpleCache();
@@ -80,7 +80,7 @@ class Home extends BaseController
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
-            if(!$User = $this->checkUser($user->id)){
+            if(($User = $this->checkUser($user->id)) == 0) {
                 $this->registerUser($user);
             }else{
                 $user = $User;
