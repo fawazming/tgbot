@@ -50,11 +50,7 @@ class Home extends BaseController
         //LOGGER
         $log = new \App\Models\Logs();
         $incoming = $this->request->getPostGet();
-        $str = "";
-        foreach ($incoming as $value) {
-            $str .= $value;
-        }
-        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_encode($incoming)]);
+        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
