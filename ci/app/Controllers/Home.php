@@ -74,8 +74,8 @@ class Home extends BaseController
         if($incoming['status'] == 'completed'){
             $res = $log->where(['name'=>'pay_'.$incoming['tx_ref']])->findAll();
             if($res){
-                $uid = json_decode($res[0]['data'])['tg_id'];
-                $amt = (json_decode($res[0]['data'])['amt']) - 15;
+                // $uid = json_decode($res[0]['data'])['tg_id'];
+                // $amt = (json_decode($res[0]['data'])['amt']) - 15;
 
                  dd($res);
 
