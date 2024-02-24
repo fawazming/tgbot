@@ -31,6 +31,9 @@ class Home extends BaseController
             $res = $log->findAll();
             dd($res);
         // echo 'welcom tg g';
+
+        // return $this->generatePaylink('215', ['tg_id'=>'987656','fname'=>'Fawaz']);
+
     }
 
     public function checkUser($user)
@@ -69,11 +72,10 @@ class Home extends BaseController
         $client = \Config\Services::curlrequest();
          $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
 
-        if($amt < 1000){
+        if($amt < 1016){
             $response = $client->request('POST', 'https://api.flutterwave.com/v3/payments', [
                 'headers' => [
-                    'User-Agent' => 'Authorization '.$_ENV['flw'],
-                    'Accept'     => 'application/json',
+                    'Authorization' => 'Bearer '.$_ENV['flw'],
                 ],
                 'json' => [
                     "tx_ref"=>"sgmData-tx-08767667t90".rand()*24,
@@ -82,7 +84,6 @@ class Home extends BaseController
                     "redirect_url"=> "https://t.me/Rayyan234bot",
                     "customer"=> [
                         "email"=> $user['tg_id']."@data.sgm.ng",
-                        "phonenumber"=> $user['phone'],
                         "name"=> $user['fname'],
                     ],
                     "customizations"=> [
@@ -171,7 +172,7 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
             $user = $bot->get('user');
 
             //Generate link from flutterwave or payvessel
-            if($amt < 1000){
+            if($amt < 1001){
                 $amt = $amt+15;
             }else{
                 $amt = $amt+35;

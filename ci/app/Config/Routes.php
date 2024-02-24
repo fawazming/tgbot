@@ -37,6 +37,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('/telegram', 'Home::telegramg');
+$routes->get('/paylink/(:any)', 'Home::generatePaylink/$1');
 $routes->post('/telegram', 'Home::telegram');
 
 /*
