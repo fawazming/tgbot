@@ -129,14 +129,14 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
         $bot->onText('(fund|Fund) {amt}', function (Nutgram $bot, $c, $amt) {
             //Generate link from flutterwave or payvessel
             // $PayLink = $this->generatePaylink($amt);
-            $PayLink = '';
-            $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
+            // $PayLink = '';
+            // $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
 
-        if($amt < 1000){
-            $PayLink = "http://linkless1000.co";
-        }else{
-            $PayLink = "http://linkmore1000.co";
-        }
+            // if($amt < 1000){
+            //     $PayLink = "http://linkless1000.co";
+            // }else{
+            //     $PayLink = "http://linkmore1000.co";
+            // }
            $bot->sendMessage(text: "Follow the link below to make the payment of ₦{$amt}",
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
