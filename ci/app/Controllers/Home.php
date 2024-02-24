@@ -66,12 +66,45 @@ class Home extends BaseController
     public function generatePaylink($amt)
     {
         $log = new \App\Models\Logs();
+        $client = \Config\Services::curlrequest();
          $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
 
         if($amt < 1000){
-            return "http://linkless1000.co";
+            $response = $client->request('POST', 'https://api.flutterwave.com/v3/payments', [
+                'headers' => [
+                    'User-Agent' => 'Authorization '.$_ENV['flw'],
+                    'Accept'     => 'application/json',
+                ],
+                'json' => [
+                    "tx_ref"=>"sgmData-tx-08767667t90".rand()*24,
+                    "amount"=> $amt,
+                    "currency"=> "NGN",
+                    "redirect_url"=> "https://t.me/Rayyan234bot",
+                    "customer"=> [
+                        "email"=> $user['tg_id']."@data.sgm.ng",
+                        "phonenumber"=> $user['phone'],
+                        "name"=> $user['fname'],
+                    ],
+                    "customizations"=> [
+                        "title"=> "SGM Data",
+                        "logo"=> "https://rayyantech.sgm.ng/assets/images/logo-dark.png",
+                    ],
+                    "payment_options"=> "banktransfer",
+                    "bank_transfer_options"=> [
+                        "expires"=> "3600"
+                    ],
+                ]
+            ] );
+            $body = $response->getBody();
+            if (strpos($response->header('content-type'), 'application/json') !== false) {
+                $body = json_decode($body);
+            }
+
+            $link = $body->data->link;
+
+            return $link;
         }else{
-            return "http://linkmore1000.co";
+            return "notAvailableYet";
         }
     }
 
@@ -128,20 +161,23 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
         });
 
         $bot->onText('(fund|Fund) {amt}', function (Nutgram $bot, $c, $amt) {
+            $user = $bot->get('user');
+
             //Generate link from flutterwave or payvessel
-            $PayLink = $this->generatePaylink($amt);
+            if($amt < 1000){
+                $amt = $amt+15;
+            }else{
+                $amt = $amt+35;
+            }
+            $PayLink = $this->generatePaylink($amt, $user);
             // $PayLink = '';
             // $log->insert(['name'=>'generatePaylink','data'=>"in Link {$amt}"]);
 
-            // if($amt < 1000){
-            //     $PayLink = "http://linkless1000.co";
-            // }else{
-            //     $PayLink = "http://linkmore1000.co";
-            // }
+            
            $bot->sendMessage(text: "Follow the link below to make the payment of ₦{$amt}",
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
-                        InlineKeyboardButton::make("Pay {$amt}", url: $PayLink ),
+                        InlineKeyboardButton::make("Pay ₦{$amt}", url: $PayLink ),
                     ));
         } );
 
