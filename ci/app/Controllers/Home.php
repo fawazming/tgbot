@@ -130,7 +130,7 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
 
         $bot->onCommand('user', function (Nutgram $bot) {
             $user = $bot->get('user');
-            $bot->sendMessage("Hi user {$user->first_name}!");
+            $bot->sendMessage("Hi user {$user['fname']}!");
         });
 
         $bot->onCommand('opt', function(Nutgram $bot){
@@ -250,7 +250,7 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
         // ex. called when a message contains "My name is Mario"
         $bot->onText('My name is {name}', function (Nutgram $bot, $name) {
              $user = $bot->get('user');
-            $bot->sendMessage("Hi {$name} and id is {$user->id}");
+            $bot->sendMessage("Hi {$name} and id is {$user['tg_id']}");
         });
 
         // ex. called when a message contains "I want 6 pizzas"
