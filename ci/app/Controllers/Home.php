@@ -26,7 +26,11 @@ class Home extends BaseController
 
     public function telegramg()
     {
-        echo 'welcom tg g';
+        $log = new \App\Models\Logs();
+            // $incoming = $this->request->getPost();
+            $res = $log->findAll();
+            dd($res);
+        // echo 'welcom tg g';
     }
 
     public function telegram()
@@ -41,6 +45,11 @@ class Home extends BaseController
 
         $bot = new Nutgram('6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg', $config);
         $bot->setRunningMode(Webhook::class);
+
+        //LOGGER
+        $log = new \App\Models\Logs();
+        $incoming = $this->request->getPost();
+        $res = $log->insert(['name'=>'tgIncoming','data'=>$incoming]);
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
