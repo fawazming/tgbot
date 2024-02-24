@@ -54,7 +54,7 @@ class Home extends BaseController
         foreach ($incoming as $value) {
             $str .= $value;
         }
-        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".$str]);
+        $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".serialize($incoming)]);
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
