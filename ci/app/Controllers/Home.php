@@ -33,17 +33,23 @@ class Home extends BaseController
         // echo 'welcom tg g';
     }
 
-    public function checkUser($tg_id)
+    public function checkUser($user)
     {
         $Users = new \App\Models\Users();
         $log = new \App\Models\Logs();
-         $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser {$tg_id}"]);
+         $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser {$user->id}"]);
 
-        if($User = $Users->where('tg_id', $tg_id)->find()){
+        if($User = $Users->where('tg_id', $user->id)->find()){
             return $User[0];
         }else{
-            return false;
+            $this->registerUser($user);
         }
+
+        // if(!$User) {
+            //     
+            // }else{
+            //     $user = $User;
+            // }
     }
 
     public function registerUser($user)
@@ -83,7 +89,7 @@ class Home extends BaseController
 
         $bot->middleware(function (Nutgram $bot, $next) {
             $user = $bot->user();
-            $User = $this->checkUser($user->id);
+            $User = $this->checkUser($user);
 
             // $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
 
