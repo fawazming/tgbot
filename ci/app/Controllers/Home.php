@@ -74,13 +74,25 @@ class Home extends BaseController
         if($incoming['status'] == 'completed'){
             $res = $log->where(['name'=>'pay_'.$incoming['tx_ref']])->findAll();
             if($res){
-                // $uid = json_decode($res[0]['data'])['tg_id'];
-                // $amt = (json_decode($res[0]['data'])['amt']) - 15;
+                $uid = json_decode($res[0]['data'])->tg_id;
+                $amt = (json_decode($res[0]['data'])->amt) - 15;
+                $user = $Users->where(['tg_id'=>$uid])->find();
+                $data = [
+                    'balance' => $user[0]['balance'] + $amt
+                ];
+                $Users->set($data);
+                $res = $Users->where(['tg_id'=>$uid])->update();
+                if($res){
+                    $data = ['name'=>'ProcessedPay_'.$incoming['tx_ref']];
+                    $log->set($data);
+                    $done = $log->where(['name'=>'pay_'.$incoming['tx_ref']])->update();
 
-                 dd($res);
-
-
+                    if($done){
+                        return redirect()->to('https://t.me/Rayyan234Bot');
+                    }
+                }
             }
+           return redirect()->to('https://t.me/Rayyan234Bot');
         }
     }
 
@@ -89,7 +101,7 @@ class Home extends BaseController
         $log = new \App\Models\Logs();
         $client = \Config\Services::curlrequest();
         $tx = "sgmData-tx-{$user['tg_id']}t".rand()*24;
-        $log->insert(['name'=>'pay_'.$tx,'data'=>"{'amt':{$amt}, 'tg_id': {$user['tg_id']}, 'fname':{$user['fname']} }"] );
+        $log->insert(['name'=>'pay_'.$tx,'data'=>'{"amt":"'.$amt.'", "tg_id": "'.$user['tg_id'].'", "fname":"'.$user['fname'].'" }'] );
 
         if($amt < 1016){
             $response = $client->request('POST', 'https://api.flutterwave.com/v3/payments', [
@@ -100,7 +112,7 @@ class Home extends BaseController
                     "tx_ref"=>$tx,
                     "amount"=> $amt,
                     "currency"=> "NGN",
-                    "redirect_url"=> "https://t.me/Rayyan234bot",
+                    "redirect_url"=> "https://tgbot.sgm.ng/verifypay",
                     "customer"=> [
                         "email"=> $user['tg_id']."@data.sgm.ng",
                         "name"=> $user['fname'],
@@ -177,6 +189,20 @@ You can <b>fund your wallet</b> by using the command /fund
 and <b>₦35</b> charge on any amount greater than ₦1000
 
 Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
+
+
+<b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
+                parse_mode: ParseMode::HTML,
+            );
+        });
+
+
+        $bot->onCommand('wallet', function (Nutgram $bot) {
+            $user = $bot->get('user');
+            $bot->sendMessage(text: 
+"Your balance is <b>₦{$user['balance']}</b> 
+
+You can add funds to your wallet by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
 
 
 <b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
