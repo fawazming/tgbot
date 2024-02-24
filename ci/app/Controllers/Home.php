@@ -49,7 +49,7 @@ class Home extends BaseController
     
         //LOGGER
         $log = new \App\Models\Logs();
-        // $incoming = $this->request->getPost();
+        $incoming = $this->request->getPost();
         $res = $log->insert(['name'=>'tgIncoming','data'=>'Hello']);
 
         $bot->middleware(function (Nutgram $bot, $next) {
