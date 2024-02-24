@@ -83,20 +83,20 @@ class Home extends BaseController
             $user = $bot->user();
             // $User = $this->checkUser($user->id);
 
-            // if($User = $Users->where('tg_id', $user->id)->find()){
-            //     $user = $User[0];
-            // }else{
-            //     $data = [
-            //         'fname'=> $user->first_name,
-            //         'tg_id'=> $user->id,
-            //         'phone'=> '',
-            //         'email'=> $user->email,
-            //         'balance' => '0',
-            //         'clearance' => '1',
-            //         'pin' => '0000'
-            //     ];
-            //  $Users->insert($data);
-            // }
+            if($User = $Users->where('tg_id', $user->id)->findAll()){
+                $userd = $User[0];
+            }else{
+                $data = [
+                    'fname'=> $user->first_name,
+                    'tg_id'=> $user->id,
+                    'phone'=> '',
+                    'email'=> $user->email,
+                    'balance' => '0',
+                    'clearance' => '1',
+                    'pin' => '0000'
+                ];
+             $Users->insert($data);
+            }
 
             // $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
 
