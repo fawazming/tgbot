@@ -36,6 +36,9 @@ class Home extends BaseController
     public function checkUser($tg_id)
     {
         $Users = new \App\Models\Users();
+        $log = new \App\Models\Logs();
+         $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser {$tg_id}"]);
+
         if($User = $Users->where('tg_id', $tg_id)->find()){
             return $User[0];
         }else{
@@ -84,11 +87,11 @@ class Home extends BaseController
 
             // $log->insert(['name'=>'middlewareCheckUser','data'=>'responed 0']);
 
-            if(!$User) {
-                $this->registerUser($user);
-            }else{
-                $user = $User;
-            }
+            // if(!$User) {
+            //     $this->registerUser($user);
+            // }else{
+            //     $user = $User;
+            // }
             $bot->set('user', $user);
             $next($bot);
         });
