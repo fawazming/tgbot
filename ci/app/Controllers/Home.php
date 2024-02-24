@@ -37,12 +37,12 @@ class Home extends BaseController
     {
         $Users = new \App\Models\Users();
         $log = new \App\Models\Logs();
-         $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser {$user->id}"]);
+         $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser ".json_encode($user)]);
 
         if(($User = $Users->where('tg_id', $user->id)->findAll()) != []) {
             return $User[0];
         }else{
-            $this->registerUser($user);
+            return $this->registerUser($user);
         }
     }
 
@@ -59,6 +59,17 @@ class Home extends BaseController
             'pin' => '0000'
         ];
         $Users->insert($data);
+
+        return $data;
+    }
+
+    public function generatePaylink($amt)
+    {
+        if($amt < 1000){
+            return 'http://linkless1000',
+        }else{
+            return 'http://linkmore1000',
+        }
     }
 
     public function telegram()
@@ -98,12 +109,7 @@ You can recharge your data subscription right here on Telegram. Just send me the
 
 You can <b>fund your wallet</b> by using the command /fund 
 <b>Check your balance</b> by using command /wallet
-Also choosing to register from the button below will retreive you <u>telegram data</u> as a means of Identification", 
-                parse_mode: ParseMode::HTML,
-                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: '', selective: true,)->addRow(
-                            KeyboardButton::make('Register'),
-                            KeyboardButton::make('/cancel'),
-                        )
+", parse_mode: ParseMode::HTML
             );
         });
 
@@ -120,10 +126,11 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
 
         $bot->onText('(fund|Fund) {amt}', function (Nutgram $bot, $c, $amt) {
             //Generate link from flutterwave or payvessel
-           $bot->sendMessage(text: "Follow the link below to make the payment of {$amt}",
+            $Link = $this->generatePaylink($amt);
+           $bot->sendMessage(text: "Follow the link below to make the payment of ₦{$amt}",
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(
-                        InlineKeyboardButton::make("Pay {$amt}", url:'https://google.com'),
+                        InlineKeyboardButton::make("Pay ₦{$amt}", url:$Link),
                     ));
         });
 
