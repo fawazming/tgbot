@@ -66,6 +66,12 @@ class Home extends BaseController
         return $data;
     }
 
+    public function verifyPay()
+    {
+        $incoming = $this->request->getGet();
+        dd($incoming);
+    }
+
     public function generatePaylink($amt, $user)
     {
         $log = new \App\Models\Logs();

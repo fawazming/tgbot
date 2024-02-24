@@ -38,6 +38,7 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 $routes->get('/telegram', 'Home::telegramg');
 $routes->get('/paylink/(:any)', 'Home::generatePaylink/$1');
+$routes->get('/verifypay', 'Home::verifyPay');
 $routes->post('/telegram', 'Home::telegram');
 
 /*
