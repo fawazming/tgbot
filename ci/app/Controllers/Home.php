@@ -39,11 +39,15 @@ class Home extends BaseController
         $log = new \App\Models\Logs();
          $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser {$user->id}"]);
 
-        // if($User = $Users->where('tg_id', $user->id)->find()){
-        //     return $User[0];
-        // }else{
-        //     $this->registerUser($user);
-        // }
+        if(($User = $Users->where('tg_id', $user->id)->findAll()) != []) {
+         $log->insert(['name'=>'middlewareCheckUser','data'=>"in ifElse true"]);
+
+            return $User[0];
+        }else{
+         $log->insert(['name'=>'middlewareCheckUser','data'=>"in ifElse false"]);
+
+            $this->registerUser($user);
+        }
     }
 
     public function registerUser($user)
