@@ -8,7 +8,7 @@ class Users extends Model
     protected $table = 'users';
     protected $primaryKey = 'id';
 
-    protected $returnType = 'object';
+    protected $returnType = 'array';
     protected $useSoftDeletes = true;
     protected $allowedFields = ['fname','tg_id','phone','email','balance','clearance','pin'];
 
