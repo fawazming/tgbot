@@ -66,9 +66,9 @@ class Home extends BaseController
     public function generatePaylink($amt)
     {
         if($amt < 1000){
-            return 'http://linkless1000',
+            return 'http://linkless1000';
         }else{
-            return 'http://linkmore1000',
+            return 'http://linkmore1000';
         }
     }
 
