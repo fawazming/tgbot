@@ -40,7 +40,7 @@ class Home extends BaseController
     {
         $Users = new \App\Models\Users();
         $log = new \App\Models\Logs();
-         $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser ".json_encode($user)]);
+        $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser ".json_encode($user)]);
 
         if(($User = $Users->where('tg_id', $user->id)->findAll()) != []) {
             return $User[0];
