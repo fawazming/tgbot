@@ -212,18 +212,36 @@ $plist = $plist."
         }
     }
 
+    public function updateBalance($uid, $amt, $negative=false)
+    {
+        $user = $Users->where(['tg_id'=>$uid])->find();
+        if($negative){
+                $data = [
+                'balance' => $user[0]['balance'] - $amt
+            ];
+        }else{
+            $data = [
+                'balance' => $user[0]['balance'] + $amt
+            ];
+        }
+        $Users->set($data);
+        $res = $Users->where(['tg_id'=>$uid])->update();
+    }
+
     public function rechargeData($user, $net, $amt, $phn)
     {
         $Pricing = new \App\Models\Pricing();
         $amt = strtoupper($amt);
-        $netw = $this->network(strtoupper($net));   
-        $code = $Pricing->where(['name'=>"{$net} {$amt}"])->findAll()[0]['code'];
+        $netw = $this->network(strtoupper($net));  
+        $plist = $Pricing->where(['name'=>"{$net} {$amt}"])->findAll()[0];
+        $sPrice = $plist['s_price'];  
+        $code = $plist['code'];
         $code = explode('-', $code)[1];
 
         $log = new \App\Models\Logs();
         $client = \Config\Services::curlrequest();
         $log->insert(['name'=>'Data_'.$user['tg_id'],'data'=>'{"amt":"'.$net.$amt.'", "tg_id": "'.$user['tg_id'].'", "phoneRecharged":"'.$phn.'" }'] );
-
+        $this->updateBalance($user['tg_id'], $sPrice, true);
         $response = $client->request('POST', 'https://www.gladtidingsdata.com/api/data/', [
             'headers' => [
                 'Authorization' => 'Token '.$_ENV['glad'],
