@@ -167,6 +167,41 @@ $plist = $plist."
         }
     }
 
+    public function network($net)
+    {
+        switch ($net) {
+            case 'MTN':
+                return 1;
+                break;
+            case 'ART':
+                return 3;
+                break;
+            case 'GLO':
+                return 2;
+                break;
+            case 'NMB':
+                return 6;
+                break;
+        }
+    }
+
+    public function compareBalance($user, $bundle)
+    {
+        $Pricing = new \App\Models\Pricing();
+        $network = explode('-', $bundle)[0];
+        $amt = strtoupper( explode('-', $bundle)[1] );
+
+        $network = $this->network($network);
+
+        $sPrice = $Pricing->where(['name'=>"{$network} {$amt}"])->findAll()[0]['s_price'];
+
+        if($user['balance'] > $sPrice){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function getPriceList()
     {
         $Pricing = new \App\Models\Pricing();
@@ -335,7 +370,8 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
         // });
 
         $bot->onText('(data|Data) (mtn|MTN|Mtn) {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
-            $enoughBalance = false;
+            $user = $bot->get('user');
+            $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}");
             if($enoughBalance){
                 $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
@@ -344,7 +380,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
                     KeyboardButton::make("❌ MTN ".strtoupper($amt)." {$phn}"),
                 ));
             }else{
-                $bot->sendMessage("Sorry you can't buy {$net} {$amt} as your balance is not enough. /fund your /wallet");
+                $bot->sendMessage("Sorry you can't buy {$net} {$amt} as your balance is {$user['balance']} & it's not enough. /fund your /wallet");
             }
            
         });
