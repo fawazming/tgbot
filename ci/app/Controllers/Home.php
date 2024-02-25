@@ -312,7 +312,7 @@ $plist = $plist."
             $bot->sendMessage(text: 
 "Welcome {$user['fname']}!
 <b>I am your data subscription bot</b>. 
-You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format 'Data Network DataSize PhoneNumber' <i>(e.g.Data mtn 1gb 1234567890)</i>
+You can recharge your data subscription right here on Telegram. Just send me the keyword Data then data network, data size, and your phone number in the format 'Data Network DataSize PhoneNumber' <i>(e.g.Data mtn 1gb 1234567890)</i>. Follow the format on the price list for network/size
 
 You can <b>fund your wallet</b> by using the command /fund 
 <b>Check your balance</b> by using command /wallet
