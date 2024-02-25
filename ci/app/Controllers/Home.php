@@ -65,10 +65,15 @@ class Home extends BaseController
 
         return $data;
     }
-//d588e18067258f2d1661d6a053b3ce6e07df00dd3ed52899c765dbaa9a34920e
+//
 
-    public function webhoowe() {
-        
+    public function webhook() {
+        $hash = $_ENV['hash'];
+        $incoming = $this->request->getPost();
+        $log = new \App\Models\Logs();
+
+        $log->insert(['name'=>'webhook','data'=>json_encode($incoming)]);
+        return $this->response->setStatusCode(200);
     }
 
     public function verifyPay()
@@ -253,42 +258,42 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
             );
         });
 
-        $bot->onCommand('choice', function(Nutgram $bot){
-            $bot->sendMessage(
-                text: 'Welcome!',
-                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type something', selective: true,)->addRow(
-                    KeyboardButton::make('Give me food!'),
-                    KeyboardButton::make('Give me animal!'),
-                )
-            );
-        });
+        // $bot->onCommand('choice', function(Nutgram $bot){
+        //     $bot->sendMessage(
+        //         text: 'Welcome!',
+        //         reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type something', selective: true,)->addRow(
+        //             KeyboardButton::make('Give me food!'),
+        //             KeyboardButton::make('Give me animal!'),
+        //         )
+        //     );
+        // });
 
-        $bot->onCommand('cancel', function (Nutgram $bot) {
-            $bot->sendMessage(
-                text: 'Removing keyboard...',
-                reply_markup: ReplyKeyboardRemove::make(true),
-            )?->delete();
-        });
+        // $bot->onCommand('cancel', function (Nutgram $bot) {
+        //     $bot->sendMessage(
+        //         text: 'Removing keyboard...',
+        //         reply_markup: ReplyKeyboardRemove::make(true),
+        //     )?->delete();
+        // });
 
-        $bot->onCommand('freply', function(Nutgram $bot){
-            $bot->sendMessage(
-                text: 'Welcome!',
-                reply_markup: ForceReply::make(
-                    force_reply: true,
-                    input_field_placeholder: 'Type something',
-                    selective: true,
-                ),
-            );
-        });
+        // $bot->onCommand('freply', function(Nutgram $bot){
+        //     $bot->sendMessage(
+        //         text: 'Welcome!',
+        //         reply_markup: ForceReply::make(
+        //             force_reply: true,
+        //             input_field_placeholder: 'Type something',
+        //             selective: true,
+        //         ),
+        //     );
+        // });
 
-        $bot->onText('08108097322', function (Nutgram $bot) {
-            $bot->setUserData('phn', '08108097322');
-            $amt = $bot->getUserData('amt');
+        // $bot->onText('08108097322', function (Nutgram $bot) {
+        //     $bot->setUserData('phn', '08108097322');
+        //     $amt = $bot->getUserData('amt');
 
-           $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
-        });
+        //    $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
+        // });
 
-        $bot->onText('(mtn|MTN|Mtn) {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
+        $bot->onText('(data|Data (mtn|MTN|Mtn) {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
            $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
@@ -305,28 +310,28 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
            $bot->sendMessage("You just cancelled the recharge of MTN {$amt} for {$phn}");
         });
 
-        $bot->onText('MTN {amt}', function (Nutgram $bot, $amt) {
-            $bot->setUserData('amt', $amt);
+        // $bot->onText('MTN {amt}', function (Nutgram $bot, $amt) {
+        //     $bot->setUserData('amt', $amt);
 
-           $bot->sendMessage(
-                text: "Phone Number to recharge MTN {$amt}",
-                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
-                    KeyboardButton::make('MTN 500MB'),
-                    KeyboardButton::make('MTN 1GB'),
-                    KeyboardButton::make('MTN 2GB'),
-                ));
-        });
+        //    $bot->sendMessage(
+        //         text: "Phone Number to recharge MTN {$amt}",
+        //         reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type phone Number', selective: true,)->addRow(
+        //             KeyboardButton::make('MTN 500MB'),
+        //             KeyboardButton::make('MTN 1GB'),
+        //             KeyboardButton::make('MTN 2GB'),
+        //         ));
+        // });
 
-        $bot->onCommand('data', function (Nutgram $bot) {
-            $bot->sendMessage(
-                text: 'Data Size? 1GB or 500MB',
-                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type something', selective: true,)->addRow(
-                    KeyboardButton::make('MTN 500MB'),
-                    KeyboardButton::make('MTN 1GB'),
-                    KeyboardButton::make('MTN 2GB'),
-                )
-            );
-        });
+        // $bot->onCommand('data', function (Nutgram $bot) {
+        //     $bot->sendMessage(
+        //         text: 'Data Size? 1GB or 500MB',
+        //         reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Type something', selective: true,)->addRow(
+        //             KeyboardButton::make('MTN 500MB'),
+        //             KeyboardButton::make('MTN 1GB'),
+        //             KeyboardButton::make('MTN 2GB'),
+        //         )
+        //     );
+        // });
 
         // $bot->onCommand('start', 'firstStep');
 
@@ -343,41 +348,41 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
         //     $bot->endConversation();
         // }
 
-        $bot->onText('Give me food!', function (Nutgram $bot) {
-            $bot->sendMessage('Apple!');
-        });
+        // $bot->onText('Give me food!', function (Nutgram $bot) {
+        //     $bot->sendMessage('Apple!');
+        // });
 
-        $bot->onText('Give me animal!', function (Nutgram $bot) {
-            $bot->sendMessage('Dog!');
-        });
+        // $bot->onText('Give me animal!', function (Nutgram $bot) {
+        //     $bot->sendMessage('Dog!');
+        // });
 
-        // Called on command "/help"
-        $bot->onCommand('help', function (Nutgram $bot) {
-            $bot->sendMessage('Helpu ke!');
-        });
+        // // Called on command "/help"
+        // $bot->onCommand('help', function (Nutgram $bot) {
+        //     $bot->sendMessage('Helpu ke!');
+        // });
 
-        // ex. called when a message contains "My name is Mario"
-        $bot->onText('My name is {name}', function (Nutgram $bot, $name) {
-             $user = $bot->get('user');
-            $bot->sendMessage("Hi {$name} and id is {$user['tg_id']}");
-        });
+        // // ex. called when a message contains "My name is Mario"
+        // $bot->onText('My name is {name}', function (Nutgram $bot, $name) {
+        //      $user = $bot->get('user');
+        //     $bot->sendMessage("Hi {$name} and id is {$user['tg_id']}");
+        // });
 
-        // ex. called when a message contains "I want 6 pizzas"
-        $bot->onText('I want ([0-9]+) pizzas', function (Nutgram $bot, $n) {
-            $bot->sendMessage("You will get {$n} pizzas!");
-        });
+        // // ex. called when a message contains "I want 6 pizzas"
+        // $bot->onText('I want ([0-9]+) pizzas', function (Nutgram $bot, $n) {
+        //     $bot->sendMessage("You will get {$n} pizzas!");
+        // });
 
-        $bot->onText('I want ([0-9]+) portions of (pizza|cake)', function (Nutgram $bot, $amount, $dish) {
-            $bot->sendMessage("You will get {$amount} portions of {$dish}!");
-        });
+        // $bot->onText('I want ([0-9]+) portions of (pizza|cake)', function (Nutgram $bot, $amount, $dish) {
+        //     $bot->sendMessage("You will get {$amount} portions of {$dish}!");
+        // });
 
-        $bot->onText('Data (MTN|ART) (1GB|500MB)', function (Nutgram $bot, $network, $amount) {
-            $bot->sendMessage("I will recharge {$network} {$amount}!");
-        });
+        // $bot->onText('Data (MTN|ART) (1GB|500MB)', function (Nutgram $bot, $network, $amount) {
+        //     $bot->sendMessage("I will recharge {$network} {$amount}!");
+        // });
 
-        $bot->onText('Airtime (MTN|ART|GLO|9MB) ([0-9]+) to {phone}', function (Nutgram $bot, $network, $amount, $phone) {
-            $bot->sendMessage("I will recharge {$network} {$amount} airtime to {$phone}!");
-        });
+        // $bot->onText('Airtime (MTN|ART|GLO|9MB) ([0-9]+) to {phone}', function (Nutgram $bot, $network, $amount, $phone) {
+        //     $bot->sendMessage("I will recharge {$network} {$amount} airtime to {$phone}!");
+        // });
 
         $bot->run();
     }
