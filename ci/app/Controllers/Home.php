@@ -174,7 +174,6 @@ $plist = $plist."
             $plist = "";
             foreach ($prices as $price) {
 $plist = $plist."
-
 {$price['name']}   <b>₦{$price['s_price']}</b>";
             }
             return $plist;
@@ -253,7 +252,8 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
             $user = $bot->get('user');
             $plist = $this->getPriceList();
             $bot->sendMessage(text: 
-"Our Price list is as follows: {$plist}
+"Our Price list is as follows: 
+{$plist}
 
 You can add funds to your wallet by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
 <b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
