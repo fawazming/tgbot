@@ -188,10 +188,10 @@ $plist = $plist."
     public function compareBalance($user, $bundle)
     {
         $Pricing = new \App\Models\Pricing();
-        $network = explode('-', $bundle)[0];
+        $network = strtoupper( explode('-', $bundle)[0]);
         $amt = strtoupper( explode('-', $bundle)[1] );
 
-        $network = $this->network($network);
+        // $network = $this->network($network);
 
         $sPrice = $Pricing->where(['name'=>"{$network} {$amt}"])->findAll()[0]['s_price'];
 
