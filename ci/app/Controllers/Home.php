@@ -297,7 +297,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
         //    $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
         // });
 
-        $bot->onText('(data|Data (mtn|MTN|Mtn) {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
+        $bot->onText('(data|Data) (mtn|MTN|Mtn) {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
            $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
