@@ -435,15 +435,15 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
         //    $bot->sendMessage("Successfully recharged {$amt} for 08108097322");
         // });
 
-        $bot->onText('(data|Data) (mtn|MTN|Mtn) {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
+        $bot->onText('(data|Data) {net} {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
             $user = $bot->get('user');
             $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}");
             if($enoughBalance){
                 $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
-                    KeyboardButton::make("✔️ MTN ".strtoupper($amt)." {$phn}"),
-                    KeyboardButton::make("❌ MTN ".strtoupper($amt)." {$phn}"),
+                    KeyboardButton::make("✔️ ".strtoupper($net)." ".strtoupper($amt)." {$phn}"),
+                    KeyboardButton::make("❌ ".strtoupper($net)." ".strtoupper($amt)." {$phn}"),
                 ));
             }else{
                 $bot->sendMessage("Sorry you can't buy {$net} {$amt} as your balance is {$user['balance']} & it's not enough. /fund your /wallet");
@@ -451,14 +451,14 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
            
         });
 
-        $bot->onText('✔️ (MTN) {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
+        $bot->onText('✔️ {net} {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
             $user = $bot->get('user');
             $this->rechargeData($user, $net, $amt, $phn);
            $bot->sendMessage("🏎️Your data is on its way 🏎️");
         });
 
-        $bot->onText('❌ MTN {amt} ([0-9]+)', function (Nutgram $bot, $amt, $phn) {
-           $bot->sendMessage("You just cancelled the recharge of MTN {$amt} for {$phn}");
+        $bot->onText('❌ {net} {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
+           $bot->sendMessage("You just cancelled the recharge of {$net} {$amt} for {$phn}");
         });
 
         // $bot->onText('MTN {amt}', function (Nutgram $bot, $amt) {
