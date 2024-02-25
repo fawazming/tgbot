@@ -169,6 +169,7 @@ $plist = $plist."
 
     public function getPriceList()
     {
+        $Pricing = new \App\Models\Pricing();
         $prices = $Pricing->findAll();
             $plist = "";
             foreach ($prices as $price) {
@@ -185,7 +186,6 @@ $plist = $plist."
         //LOGGER
         $log = new \App\Models\Logs();
         $Users = new \App\Models\Users();
-        $Pricing = new \App\Models\Pricing();
         // $incoming = $this->request->getPostGet();
         // $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
         // $psr16Cache = new SimpleCache();
