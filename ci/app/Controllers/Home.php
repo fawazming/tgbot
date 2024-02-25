@@ -57,7 +57,7 @@ $plist = $plist."
     {
         $Users = new \App\Models\Users();
         $log = new \App\Models\Logs();
-        $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser ".json_encode($user)]);
+        // $log->insert(['name'=>'middlewareCheckUser','data'=>"in checkUser ".json_encode($user)]);
 
         if(($User = $Users->where('tg_id', $user->id)->findAll()) != []) {
             return $User[0];
@@ -95,10 +95,11 @@ $plist = $plist."
 
     public function datawebhook() {
         $hash = $_ENV['hash'];
-        $incoming = $this->request->getPost();
+        $incoming = $this->request->getPostGet();
         $log = new \App\Models\Logs();
 
-        $log->insert(['name'=>'webhook','data'=>json_encode($incoming)]);
+        $log->insert(['name'=>'datawebhookIncoming','data'=>"I am coming"]);
+        $log->insert(['name'=>'datawebhook','data'=>json_encode($incoming)]);
         return $this->response->setStatusCode(200);
     }
 
@@ -215,7 +216,7 @@ $plist = $plist."
     public function updateBalance($uid, $amt, $negative=false)
     {
         $Users = new \App\Models\Users();
-        
+
         $user = $Users->where(['tg_id'=>$uid])->find();
         $data = [];
         if($negative){
