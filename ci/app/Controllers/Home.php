@@ -24,6 +24,11 @@ class Home extends BaseController
         return view('welcome_message');
     }
 
+    public function test()
+    {
+        return view('err');
+    }
+
     public function telegramg()
     {
         $log = new \App\Models\Logs();
@@ -167,7 +172,7 @@ class Home extends BaseController
             clientTimeout: 10, // default in seconds, when contacting the Telegram API
         );
 
-        $bot = new Nutgram($_ENV['tgToken'], $config);
+        $bot = new Nutgram('6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg', $config);
         $bot->setRunningMode(Webhook::class);
 
         $bot->middleware(function (Nutgram $bot, $next) {
