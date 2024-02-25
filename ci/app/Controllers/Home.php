@@ -32,8 +32,11 @@ class Home extends BaseController
     public function telegramg()
     {
         $log = new \App\Models\Logs();
+        $Users = new \App\Models\Users();
+
             // $incoming = $this->request->getPost();
             $res = $log->findAll();
+
             dd($res);
         // echo 'welcom tg g';
 
@@ -62,7 +65,7 @@ class Home extends BaseController
             'tg_id'=> $user->id,
             'phone'=> '',
             'email'=> '',
-            'balance' => '0',
+            'balance' => '50',
             'clearance' => '1',
             'pin' => '0000'
         ];
@@ -161,7 +164,7 @@ class Home extends BaseController
         //LOGGER
         $log = new \App\Models\Logs();
         $Users = new \App\Models\Users();
-        // $Pricing = new \App\Models\Pricing();
+        $Pricing = new \App\Models\Pricing();
         // $incoming = $this->request->getPostGet();
         // $res = $log->insert(['name'=>'tgIncoming','data'=>"incoming ".json_decode($incoming)]);
         // $psr16Cache = new SimpleCache();
@@ -192,6 +195,7 @@ You can recharge your data subscription right here on Telegram. Just send me the
 
 You can <b>fund your wallet</b> by using the command /fund 
 <b>Check your balance</b> by using command /wallet
+<b>Check available data and price list</b> by using command /price
 ", parse_mode: ParseMode::HTML
             );
         });
@@ -215,10 +219,29 @@ Proceed with the funding by send the amount in the format 'fund amount' <i> (e.g
             $user = $bot->get('user');
             $bot->sendMessage(text: 
 "Your balance is <b>₦{$user['balance']}</b> 
-
+You are subscriber number <b>{$user['id']}</b>
 You can add funds to your wallet by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
 
 
+<b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
+                parse_mode: ParseMode::HTML,
+            );
+        });
+
+        $bot->onCommand('price', function (Nutgram $bot) {
+            $user = $bot->get('user');
+            $prices = $Pricing->findAll();
+            $plist = "";
+            foreach ($prices as $price) {
+$plist = "
+{$plist}
+{$price['name']}   <b>₦{$price['s_price']}</b>";
+            }
+            $bot->sendMessage(text: 
+"Our Price list is as follows:
+{$plist}
+
+You can add funds to your wallet by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
 <b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
                 parse_mode: ParseMode::HTML,
             );
