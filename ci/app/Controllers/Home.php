@@ -168,7 +168,7 @@ class Home extends BaseController
             clientTimeout: 10, // default in seconds, when contacting the Telegram API
         );
 
-        $bot = new Nutgram('6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg', $config);
+        $bot = new Nutgram($_ENV['tgToken'], $config);
         $bot->setRunningMode(Webhook::class);
 
         $bot->middleware(function (Nutgram $bot, $next) {
@@ -184,7 +184,7 @@ class Home extends BaseController
             $bot->sendMessage(text: 
 "Welcome {$user['fname']}!
 <b>I am your data subscription bot</b>. 
-You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format 'Network DataSize PhoneNumber' <i>(e.g., mtn 1gb 1234567890)</i>
+You can recharge your data subscription right here on Telegram. Just send me the data network, data size, and your phone number in the format 'Data Network DataSize PhoneNumber' <i>(e.g.Data mtn 1gb 1234567890)</i>
 
 You can <b>fund your wallet</b> by using the command /fund 
 <b>Check your balance</b> by using command /wallet
