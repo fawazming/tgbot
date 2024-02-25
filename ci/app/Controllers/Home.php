@@ -65,6 +65,11 @@ class Home extends BaseController
 
         return $data;
     }
+//d588e18067258f2d1661d6a053b3ce6e07df00dd3ed52899c765dbaa9a34920e
+
+    public function webhoowe() {
+        
+    }
 
     public function verifyPay()
     {
