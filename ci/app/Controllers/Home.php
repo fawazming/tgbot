@@ -92,6 +92,16 @@ $plist = $plist."
         return $this->response->setStatusCode(200);
     }
 
+
+    public function datawebhook() {
+        $hash = $_ENV['hash'];
+        $incoming = $this->request->getPost();
+        $log = new \App\Models\Logs();
+
+        $log->insert(['name'=>'webhook','data'=>json_encode($incoming)]);
+        return $this->response->setStatusCode(200);
+    }
+
     public function verifyPay()
     {
         $log = new \App\Models\Logs();
@@ -200,6 +210,40 @@ $plist = $plist."
         }else{
             return false;
         }
+    }
+
+    public function rechargeData($user, $net, $amt, $phn)
+    {
+        $Pricing = new \App\Models\Pricing();
+        $amt = strtoupper($amt);
+        $netw = $this->network(strtoupper($net));   
+        $code = $Pricing->where(['name'=>"{$net} {$amt}"])->findAll()[0]['code'];
+        $code = explode('-', $code)[1];
+
+        $log = new \App\Models\Logs();
+        $client = \Config\Services::curlrequest();
+        $log->insert(['name'=>'Data_'.$user['tg_id'],'data'=>'{"amt":"'.$net.$amt.'", "tg_id": "'.$user['tg_id'].'", "phoneRecharged":"'.$phn.'" }'] );
+
+        $response = $client->request('POST', 'https://www.gladtidingsdata.com/api/data/', [
+            'headers' => [
+                'Authorization' => 'Token '.$_ENV['glad'],
+            ],
+            'json' => [
+                "network"=>$netw, 
+                "mobile_number"=>$phn,
+                "plan"=> $code, 
+                "Ported_number" => true
+            ]
+        ] );
+
+        $body = $response->getBody();
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($body);
+        }
+        $log->insert(['name'=>'DataReturned', 'data'=>json_encode($body)]);
+        // $link = $body->data->link;
+
+        return true;
     }
 
     public function getPriceList()
@@ -385,8 +429,10 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
            
         });
 
-        $bot->onText('✔️ MTN {amt} ([0-9]+)', function (Nutgram $bot, $amt, $phn) {
-           $bot->sendMessage("Successfully recharged MTN {$amt} for {$phn}");
+        $bot->onText('✔️ (MTN) {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
+            $user = $bot->get('user');
+            $this->rechargeData($user, $net, $amt, $phn);
+           $bot->sendMessage("🏎️Your data is on its way 🏎️");
         });
 
         $bot->onText('❌ MTN {amt} ([0-9]+)', function (Nutgram $bot, $amt, $phn) {

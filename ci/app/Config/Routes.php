@@ -41,6 +41,7 @@ $routes->get('/test', 'Home::test');
 $routes->get('/paylink/(:any)', 'Home::generatePaylink/$1');
 $routes->get('/verifypay', 'Home::verifyPay');
 $routes->post('/webhook', 'Home::webhook');
+$routes->post('/datawebhook', 'Home::datawebhook');
 $routes->post('/telegram', 'Home::telegram');
 
 /*
