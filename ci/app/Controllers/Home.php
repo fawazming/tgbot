@@ -215,8 +215,9 @@ $plist = $plist."
     public function updateBalance($uid, $amt, $negative=false)
     {
         $user = $Users->where(['tg_id'=>$uid])->find();
+        $data = [];
         if($negative){
-                $data = [
+            $data = [
                 'balance' => $user[0]['balance'] - $amt
             ];
         }else{
