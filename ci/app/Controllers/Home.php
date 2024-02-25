@@ -65,16 +65,15 @@ class Home extends BaseController
 
         return $data;
     }
-//
 
-    // public function webhook() {
-    //     $hash = $_ENV['hash'];
-    //     $incoming = $this->request->getPost();
-    //     $log = new \App\Models\Logs();
+    public function webhook() {
+        $hash = $_ENV['hash'];
+        $incoming = $this->request->getPost();
+        $log = new \App\Models\Logs();
 
-    //     $log->insert(['name'=>'webhook','data'=>json_encode($incoming)]);
-    //     return $this->response->setStatusCode(200);
-    // }
+        $log->insert(['name'=>'webhook','data'=>json_encode($incoming)]);
+        return $this->response->setStatusCode(200);
+    }
 
     public function verifyPay()
     {
