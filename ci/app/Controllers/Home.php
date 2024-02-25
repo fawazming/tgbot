@@ -26,7 +26,16 @@ class Home extends BaseController
 
     public function test()
     {
-        return view('err');
+        // return view('err');
+        $Pricing = new \App\Models\Pricing();
+ 
+        $prices = $Pricing->findAll();
+            $plist = "";
+            foreach ($prices as $price) {
+$plist = $plist."
+{$price['name']}   <b>₦{$price['s_price']}</b>";
+            }
+            echo $plist;
     }
 
     public function telegramg()
@@ -237,7 +246,7 @@ $plist = $plist."
 {$price['name']}   <b>₦{$price['s_price']}</b>";
             }
             $bot->sendMessage(text: 
-"Our Price list is as follows:".$plist."
+"Our Price list is as follows: ...
 
 You can add funds to your wallet by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
 <b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
