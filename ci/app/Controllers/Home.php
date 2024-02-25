@@ -167,6 +167,18 @@ $plist = $plist."
         }
     }
 
+    public function getPriceList()
+    {
+        $prices = $Pricing->findAll();
+            $plist = "";
+            foreach ($prices as $price) {
+$plist = $plist."
+
+{$price['name']}   <b>₦{$price['s_price']}</b>";
+            }
+            return $plist;
+    }
+
     public function telegram()
     {
 
@@ -239,7 +251,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
 
         $bot->onCommand('price', function (Nutgram $bot) {
             $user = $bot->get('user');
-            $plist = "";
+            $plist = $this->getPriceList();
             $bot->sendMessage(text: 
 "Our Price list is as follows: {$plist}
 
