@@ -449,7 +449,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
                 text: "Are you certain that you want to recharge ₦{$amt} {$net} for {$phn}",
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
                     KeyboardButton::make("₦ ".strtoupper($amt)." ".strtoupper($net)." {$phn}✔️"),
-                    KeyboardButton::make("₦ ".strtoupper($amt)." ₦".strtoupper($net)." {$phn}❌"),
+                    KeyboardButton::make("₦ ".strtoupper($amt)." ".strtoupper($net)." {$phn}❌"),
                 ));
             }else{
                 $bot->sendMessage("Sorry you can't buy {$net} ₦{$amt} as your balance is ₦{$user['balance']} & it's not enough. /fund your /wallet");
@@ -459,7 +459,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
 
         $bot->onText('✔️ {net} {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
             $user = $bot->get('user');
-            $this->rechargeData($user, $net, $amt, $phn);
+            // $this->rechargeData($user, $net, $amt, $phn);
            $bot->sendMessage("🏎️Your data is on its way 🏎️");
         });
 
