@@ -325,7 +325,7 @@ $plist = $plist."
             clientTimeout: 10, // default in seconds, when contacting the Telegram API
         );
 
-        $bot = new Nutgram('6590399869:AAF6tg-t18MmqV_0It1sFRJXvdTSeiBGbrg', $config);
+        $bot = new Nutgram($_ENV['tgToken'], $config);
         $bot->setRunningMode(Webhook::class);
 
         $bot->middleware(function (Nutgram $bot, $next) {
