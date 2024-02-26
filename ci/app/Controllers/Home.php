@@ -98,8 +98,10 @@ $plist = $plist."
         $incoming = $this->request->getPostGet();
         $log = new \App\Models\Logs();
 
+        $inc = json_decode($incoming);
+
         $log->insert(['name'=>'datawebhookIncoming','data'=>"I am coming"]);
-        $log->insert(['name'=>'datawebhook','data'=>json_encode($incoming)]);
+        $log->insert(['name'=>'datawebhook','data'=>$incoming['status']]);
         return $this->response->setStatusCode(200);
     }
 
