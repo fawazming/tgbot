@@ -296,11 +296,11 @@ $plist = $plist."
             ]
         ] );
 
-        $body = $response->getBody();
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($body);
-        }
-        $log->insert(['name'=>'AirtimeReturned', 'data'=>json_encode($body)]);
+        // $body = $response->getBody();
+        // if (strpos($response->header('content-type'), 'application/json') !== false) {
+        //     $body = json_decode($body);
+        // }
+        // $log->insert(['name'=>'AirtimeReturned', 'data'=>json_encode($body)]);
 
         return true;
     }
