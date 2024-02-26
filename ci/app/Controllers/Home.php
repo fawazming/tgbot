@@ -304,7 +304,6 @@ $plist = $plist."
             $body = json_decode($body);
         }
         $log->insert(['name'=>'AirtimeReturned', 'data'=>json_encode($body)]);
-        // $link = $body->data->link;
 
         return true;
     }
