@@ -279,7 +279,6 @@ $plist = $plist."
         // $plist = $Pricing->where(['name'=>"{$net} {$amt}"])->findAll()[0];
         // $sPrice = $plist['s_price'];  
         // $code = $plist['code'];
-        // $code = explode('-', $code)[1];
 
         $log = new \App\Models\Logs();
         $client = \Config\Services::curlrequest();
