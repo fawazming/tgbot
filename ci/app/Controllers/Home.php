@@ -275,7 +275,6 @@ $plist = $plist."
     public function rechargeAirtime($user, $net, $amt, $phn)
     {
         $Pricing = new \App\Models\Pricing();
-        // $amt = strtoupper($amt);
         $netw = $this->network(strtoupper($net));  
         // $plist = $Pricing->where(['name'=>"{$net} {$amt}"])->findAll()[0];
         // $sPrice = $plist['s_price'];  
