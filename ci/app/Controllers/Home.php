@@ -295,7 +295,7 @@ $plist = $plist."
                 "amount"=>$amt, 
                 "mobile_number"=>$phn, 
                 "Ported_number" => true,
-                "airtime_type":"VTU"
+                "airtime_type"=>"VTU"
             ]
         ] );
 
