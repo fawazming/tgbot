@@ -311,8 +311,10 @@ $plist = $plist."
             $user = $bot->get('user');
             $bot->sendMessage(text: 
 "Welcome {$user['fname']}!
-<b>I am your data subscription bot</b>. 
+<b>I am your airtime/data subscription bot</b>. 
 You can recharge your data subscription right here on Telegram. Just send me the keyword Data then data network, data size, and your phone number in the format 'Data Network DataSize PhoneNumber' <i>(e.g.Data mtn 1gb 1234567890)</i>. Follow the format on the price list for network/size
+
+Also recharge airtime on your phone right here on Telegram. Just send me the keyword Airtime then network, amount, and your phone number in the format 'Airtime Network Amount PhoneNumber' <i>(e.g.Airtime mtn 100 1234567890)</i>. Follow the format on the price list for network code name
 
 You can <b>fund your wallet</b> by using the command /fund 
 <b>Check your balance</b> by using command /wallet
@@ -451,6 +453,23 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
            
         });
 
+
+        $bot->onText('(airtime|Airtime) {net} {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
+            $user = $bot->get('user');
+            $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}");
+            if($enoughBalance){
+                $bot->sendMessage(
+                text: "Are you certain that you want to recharge ₦{$amt} {$net} for {$phn}",
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
+                    KeyboardButton::make("₦ ".strtoupper($amt)." ".strtoupper($net)." {$phn}✔️"),
+                    KeyboardButton::make("₦ ".strtoupper($amt)." ₦".strtoupper($net)." {$phn}❌"),
+                ));
+            }else{
+                $bot->sendMessage("Sorry you can't buy {$net} {$amt} as your balance is {$user['balance']} & it's not enough. /fund your /wallet");
+            }
+           
+        });
+
         $bot->onText('✔️ {net} {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
             $user = $bot->get('user');
             $this->rechargeData($user, $net, $amt, $phn);
@@ -459,6 +478,17 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
 
         $bot->onText('❌ {net} {amt} ([0-9]+)', function (Nutgram $bot, $net, $amt, $phn) {
            $bot->sendMessage("You just cancelled the recharge of {$net} {$amt} for {$phn}");
+        });
+
+
+        $bot->onText('₦ {amt} {net} ([0-9]+)✔️', function (Nutgram $bot, $amt, $net, $phn) {
+            $user = $bot->get('user');
+            // $this->rechargeData($user, $net, $amt, $phn);
+           $bot->sendMessage("🏎️Your airtime is never coming 🏎️");
+        });
+
+        $bot->onText('₦ {amt} {net} ([0-9]+)❌', function (Nutgram $bot, $amt, $net, $phn) {
+           $bot->sendMessage("You just cancelled the recharge of {$net} ₦{$amt} for {$phn}");
         });
 
         // $bot->onText('MTN {amt}', function (Nutgram $bot, $amt) {
