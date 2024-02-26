@@ -271,6 +271,44 @@ $plist = $plist."
         return true;
     }
 
+
+    public function rechargeAirtime($user, $net, $amt, $phn)
+    {
+        $Pricing = new \App\Models\Pricing();
+        // $amt = strtoupper($amt);
+        $netw = $this->network(strtoupper($net));  
+        // $plist = $Pricing->where(['name'=>"{$net} {$amt}"])->findAll()[0];
+        // $sPrice = $plist['s_price'];  
+        // $code = $plist['code'];
+        // $code = explode('-', $code)[1];
+
+        $log = new \App\Models\Logs();
+        $client = \Config\Services::curlrequest();
+        $log->insert(['name'=>'Airtime_'.$user['tg_id'],'data'=>'{"amt":"'.$net.$amt.'", "tg_id": "'.$user['tg_id'].'", "phoneRecharged":"'.$phn.'" }'] );
+        $this->updateBalance($user['tg_id'], $amt, true);
+        $response = $client->request('POST', 'https://www.gladtidingsdata.com/api/topup/', [
+            'headers' => [
+                'Authorization' => 'Token '.$_ENV['glad'],
+            ],
+            'json' => [
+                "network"=>$netw,
+                "amount"=>$amt, 
+                "mobile_number"=>$phn, 
+                "Ported_number" => true,
+                "airtime_type":"VTU"
+            ]
+        ] );
+
+        $body = $response->getBody();
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($body);
+        }
+        $log->insert(['name'=>'AirtimeReturned', 'data'=>json_encode($body)]);
+        // $link = $body->data->link;
+
+        return true;
+    }
+
     public function getPriceList()
     {
         $Pricing = new \App\Models\Pricing();
@@ -495,7 +533,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
         $bot->onText('₦ {amt} {net} ([0-9]+)✔️', function (Nutgram $bot, $amt, $net, $phn) {
             $user = $bot->get('user');
             // $this->rechargeData($user, $net, $amt, $phn);
-            // $this->rechargeAirtime($user, $net, $amt, $phn);
+            $this->rechargeAirtime($user, $net, $amt, $phn);
            $bot->sendMessage("🏎️Your airtime is never coming 🏎️");
         });
 
