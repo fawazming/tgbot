@@ -281,26 +281,26 @@ $plist = $plist."
 
         $log = new \App\Models\Logs();
         $client = \Config\Services::curlrequest();
-        // $log->insert(['name'=>'Airtime_'.$user['tg_id'],'data'=>'{"amt":"'.$net.$amt.'", "tg_id": "'.$user['tg_id'].'", "phoneRecharged":"'.$phn.'" }'] );
-        // $this->updateBalance($user['tg_id'], $amt, true);
-        // $response = $client->request('POST', 'https://www.gladtidingsdata.com/api/topup/', [
-        //     'headers' => [
-        //         'Authorization' => 'Token '.$_ENV['glad'],
-        //     ],
-        //     'json' => [
-        //         "network"=>$netw,
-        //         "amount"=>$amt, 
-        //         "mobile_number"=>$phn, 
-        //         "Ported_number" => true,
-        //         "airtime_type"=>"VTU"
-        //     ]
-        // ] );
+        $log->insert(['name'=>'Airtime_'.$user['tg_id'],'data'=>'{"amt":"'.$net.$amt.'", "tg_id": "'.$user['tg_id'].'", "phoneRecharged":"'.$phn.'" }'] );
+        $this->updateBalance($user['tg_id'], $amt, true);
+        $response = $client->request('POST', 'https://www.gladtidingsdata.com/api/topup/', [
+            'headers' => [
+                'Authorization' => 'Token '.$_ENV['glad'],
+            ],
+            'json' => [
+                "network"=>$netw,
+                "amount"=>$amt, 
+                "mobile_number"=>$phn, 
+                "Ported_number" => true,
+                "airtime_type"=>"VTU"
+            ]
+        ] );
 
-        // $body = $response->getBody();
-        // if (strpos($response->header('content-type'), 'application/json') !== false) {
-        //     $body = json_decode($body);
-        // }
-        // $log->insert(['name'=>'AirtimeReturned', 'data'=>json_encode($body)]);
+        $body = $response->getBody();
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($body);
+        }
+        $log->insert(['name'=>'AirtimeReturned', 'data'=>json_encode($body)]);
 
         return true;
     }
@@ -445,12 +445,16 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
             $user = $bot->get('user');
             $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}", 'airtime');
             if($enoughBalance){
-                $bot->sendMessage(
-                text: "Are you certain that you want to recharge ₦{$amt} {$net} for {$phn}",
-                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
-                    KeyboardButton::make("₦ ".strtoupper($amt)." ".strtoupper($net)." {$phn}✔️"),
-                    KeyboardButton::make("₦ ".strtoupper($amt)." ".strtoupper($net)." {$phn}❌"),
-                ));
+                if($amt < 100){
+                    $bot->sendMessage("Sorry you can't buy airtime less than ₦100");
+                }else{
+                    $bot->sendMessage(
+                    text: "Are you certain that you want to recharge ₦{$amt} {$net} for {$phn}",
+                    reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true, input_field_placeholder: 'Do Not Type anything, Choose from options', selective: true,)->addRow(
+                        KeyboardButton::make("₦ ".strtoupper($amt)." ".strtoupper($net)." {$phn}✔️"),
+                        KeyboardButton::make("₦ ".strtoupper($amt)." ".strtoupper($net)." {$phn}❌"),
+                    ));
+                }
             }else{
                 $bot->sendMessage("Sorry you can't buy {$net} ₦{$amt} as your balance is ₦{$user['balance']} & it's not enough. /fund your /wallet");
             }
