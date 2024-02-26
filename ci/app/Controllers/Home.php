@@ -315,9 +315,13 @@ $plist = $plist."
             $bot->sendMessage(text: 
 "Welcome {$user['fname']}!
 <b>I am your airtime/data subscription bot</b>. 
+
+
 You can recharge your data subscription right here on Telegram. Just send me the keyword Data then data network, data size, and your phone number in the format 'Data Network DataSize PhoneNumber' <i>(e.g.Data mtn 1gb 1234567890)</i>. Follow the format on the price list for network/size
 
+
 Also recharge airtime on your phone right here on Telegram. Just send me the keyword Airtime then network, amount, and your phone number in the format 'Airtime Network Amount PhoneNumber' <i>(e.g.Airtime mtn 100 1234567890)</i>. Follow the format on the price list for network code name
+
 
 You can <b>fund your wallet</b> by using the command /fund 
 <b>Check your balance</b> by using command /wallet
@@ -360,6 +364,10 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
             $bot->sendMessage(text: 
 "Our Price list is as follows: 
 {$plist}
+
+Buy data using the format <i>(e.g.Data mtn 1gb 1234567890)</i>
+
+Buy airtime using the format <i>(e.g.Airtime mtn 100 1234567890)</i>
 
 You can add funds to your wallet by send the amount in the format 'fund amount' <i> (e.g fund 200)</i>
 <b>NB:</b> <u>Payment more than ₦1000 is not available yet</u>", 
@@ -468,7 +476,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
                     KeyboardButton::make("₦ ".strtoupper($amt)." ₦".strtoupper($net)." {$phn}❌"),
                 ));
             }else{
-                $bot->sendMessage("Sorry you can't buy {$net} {$amt} as your balance is {$user['balance']} & it's not enough. /fund your /wallet");
+                $bot->sendMessage("Sorry you can't buy {$net} ₦{$amt} as your balance is ₦{$user['balance']} & it's not enough. /fund your /wallet");
             }
            
         });
