@@ -196,15 +196,18 @@ $plist = $plist."
         }
     }
 
-    public function compareBalance($user, $bundle)
+    public function compareBalance($user, $bundle, $type)
     {
         $Pricing = new \App\Models\Pricing();
         $network = strtoupper( explode('-', $bundle)[0]);
         $amt = strtoupper( explode('-', $bundle)[1] );
 
         // $network = $this->network($network);
-
-        $sPrice = $Pricing->where(['name'=>"{$network} {$amt}"])->findAll()[0]['s_price'];
+        if($type == 'data'){
+            $sPrice = $Pricing->where(['name'=>"{$network} {$amt}"])->findAll()[0]['s_price'];
+        }else{
+            $sPrice = $amt;
+        }
 
         if($user['balance'] > $sPrice){
             return true;
@@ -439,7 +442,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
 
         $bot->onText('(data|Data) {net} {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
             $user = $bot->get('user');
-            $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}");
+            $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}", 'data');
             if($enoughBalance){
                 $bot->sendMessage(
                 text: "Are you certain that you want to recharge {$net} {$amt} for {$phn}",
@@ -456,7 +459,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
 
         $bot->onText('(airtime|Airtime) {net} {amt} ([0-9]+)', function (Nutgram $bot, $c, $net, $amt, $phn) {
             $user = $bot->get('user');
-            $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}");
+            $enoughBalance = $this->compareBalance($user, "{$net}-{$amt}", 'airtime');
             if($enoughBalance){
                 $bot->sendMessage(
                 text: "Are you certain that you want to recharge ₦{$amt} {$net} for {$phn}",
