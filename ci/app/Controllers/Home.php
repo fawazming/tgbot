@@ -88,7 +88,7 @@ $plist = $plist."
         $incoming = $this->request->getPost();
         $log = new \App\Models\Logs();
 
-        $log->insert(['name'=>'webhook','data'=>json_encode($incoming)]);
+        $log->insert(['name'=>'webhook','data'=>$incoming]);
         return $this->response->setStatusCode(200);
     }
 
