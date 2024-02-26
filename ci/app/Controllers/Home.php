@@ -211,7 +211,7 @@ $plist = $plist."
             $sPrice = $amt;
         }
 
-        if($user['balance'] > $sPrice){
+        if($user['balance'] >= $sPrice){
             return true;
         }else{
             return false;
