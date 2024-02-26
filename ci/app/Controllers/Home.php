@@ -495,6 +495,7 @@ You can add funds to your wallet by send the amount in the format 'fund amount' 
         $bot->onText('₦ {amt} {net} ([0-9]+)✔️', function (Nutgram $bot, $amt, $net, $phn) {
             $user = $bot->get('user');
             // $this->rechargeData($user, $net, $amt, $phn);
+            // $this->rechargeAirtime($user, $net, $amt, $phn);
            $bot->sendMessage("🏎️Your airtime is never coming 🏎️");
         });
 
