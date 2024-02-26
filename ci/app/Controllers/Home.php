@@ -281,20 +281,20 @@ $plist = $plist."
 
         $log = new \App\Models\Logs();
         $client = \Config\Services::curlrequest();
-        $log->insert(['name'=>'Airtime_'.$user['tg_id'],'data'=>'{"amt":"'.$net.$amt.'", "tg_id": "'.$user['tg_id'].'", "phoneRecharged":"'.$phn.'" }'] );
-        $this->updateBalance($user['tg_id'], $amt, true);
-        $response = $client->request('POST', 'https://www.gladtidingsdata.com/api/topup/', [
-            'headers' => [
-                'Authorization' => 'Token '.$_ENV['glad'],
-            ],
-            'json' => [
-                "network"=>$netw,
-                "amount"=>$amt, 
-                "mobile_number"=>$phn, 
-                "Ported_number" => true,
-                "airtime_type"=>"VTU"
-            ]
-        ] );
+        // $log->insert(['name'=>'Airtime_'.$user['tg_id'],'data'=>'{"amt":"'.$net.$amt.'", "tg_id": "'.$user['tg_id'].'", "phoneRecharged":"'.$phn.'" }'] );
+        // $this->updateBalance($user['tg_id'], $amt, true);
+        // $response = $client->request('POST', 'https://www.gladtidingsdata.com/api/topup/', [
+        //     'headers' => [
+        //         'Authorization' => 'Token '.$_ENV['glad'],
+        //     ],
+        //     'json' => [
+        //         "network"=>$netw,
+        //         "amount"=>$amt, 
+        //         "mobile_number"=>$phn, 
+        //         "Ported_number" => true,
+        //         "airtime_type"=>"VTU"
+        //     ]
+        // ] );
 
         // $body = $response->getBody();
         // if (strpos($response->header('content-type'), 'application/json') !== false) {
